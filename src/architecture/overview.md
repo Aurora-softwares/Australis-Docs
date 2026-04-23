@@ -1,6 +1,6 @@
 # Architecture Overview
 
-Aura OS v0 is a real-mode x86 OS. Everything runs in 16-bit mode using BIOS services — there is no protected mode, paging, or memory management unit involvement yet.
+Australis OS v0 is a real-mode x86 OS. Everything runs in 16-bit mode using BIOS services — there is no protected mode, paging, or memory management unit involvement yet.
 
 ## Boot sequence
 

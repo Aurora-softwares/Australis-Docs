@@ -1,10 +1,10 @@
-# Aura OS
+# Australis OS
 
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue?style=flat-square)](https://github.com/Aurora-Softwares/Aura-OS/blob/main/LICENSE)
-[![Version](https://img.shields.io/badge/version-0.0.1-green?style=flat-square)](https://github.com/Aurora-Softwares/Aura-OS)
-[![Docs](https://img.shields.io/badge/docs-online-brightgreen?style=flat-square)](https://aurora-softwares.github.io/Aura-Docs/)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue?style=flat-square)](https://github.com/Aurora-Softwares/Australis-OS/blob/main/LICENSE)
+[![Version](https://img.shields.io/badge/version-0.0.1-green?style=flat-square)](https://github.com/Aurora-Softwares/Australis-OS)
+[![Docs](https://img.shields.io/badge/docs-online-brightgreen?style=flat-square)](https://aurora-softwares.github.io/Australis-Docs/)
 
-Aura OS is a from-scratch x86 operating system built by [Aurora Softwares](https://github.com/Aurora-Softwares). The goal is a usable, eventually graphical OS built entirely without relying on an existing kernel or OS base.
+Australis OS is a from-scratch x86 operating system built by [Aurora Softwares](https://github.com/Aurora-Softwares). The goal is a usable, eventually graphical OS built entirely without relying on an existing kernel or OS base.
 
 > **Note:** The current codebase (v0) is an early proof-of-concept that establishes the two-stage boot pipeline and a basic real-mode shell. A full ground-up rewrite is planned. These docs describe what exists today.
 
