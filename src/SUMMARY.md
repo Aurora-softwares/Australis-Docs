@@ -17,8 +17,8 @@
 
 # Internals
 
-- [Shell](internals/shell.md)
-- [Debug Output](internals/debugging.md)
+- [Terminal](internals/shell.md)
+- [Debugging](internals/debugging.md)
 
 ---
 

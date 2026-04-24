@@ -1,76 +1,40 @@
-# Bootloader
+# Boot Path
 
-The bootloader is split across two NASM files: a stage-1 that BIOS loads, and a stage-2 wrapper that embeds the C++ kernel.
+Australis OS v0 boots as a custom UEFI application. There is no BIOS boot sector, no stage-1/stage-2 loader, and no GRUB dependency in the current implementation.
 
-## Stage 1 — `src/bootloader.asm`
+## UEFI Entry
 
-The BIOS loads exactly 512 bytes from sector 0 of the boot drive to address `0x7C00` and jumps to it. The stage-1 bootloader's job is to load the rest of the OS.
+The generated binary is placed at:
 
-### Startup
-
-```nasm
-cli
-xor ax, ax
-mov ds, ax  ; zero all segment registers
-mov es, ax
-mov ss, ax
-mov sp, 0x7C00  ; stack grows down from 0x7C00
-sti
+```text
+EFI/BOOT/BOOTX64.EFI
 ```
 
-### Loading the kernel
+That path is the standard removable-media fallback path for x86_64 UEFI firmware. OVMF discovers and runs it automatically when QEMU exposes the build directory as a FAT drive.
 
-The kernel image is loaded at segment `0x1000` (physical address `0x10000`). The bootloader reads sectors sequentially using CHS addressing via BIOS interrupt `0x13`.
+## Build Command
 
-The first two words of the kernel image form a small header:
+The EFI application is compiled from C# with bflat:
 
-| Offset | Size | Meaning                                |
-|--------|------|----------------------------------------|
-| `+0`   | 2    | Total sector count of the kernel image |
-| `+2`   | 2    | Entry point offset within the image    |
-
-The bootloader reads this header from the first sector, then continues loading `total_sectors - 1` additional sectors.
-
-### Handing off control
-
-Once all sectors are loaded, execution transfers to the kernel via a far return:
-
-```nasm
-push word 0x1000       ; segment
-push word [entry_offset]
-retf                   ; jump to 0x1000:entry_offset
+```bash
+bflat build --stdlib:zero --os:uefi --arch:x64 \
+  -o build/efi/EFI/BOOT/BOOTX64.EFI \
+  src/boot/Program.cs
 ```
 
-### Disk errors
+`--stdlib:zero` keeps the runtime surface tiny, and `--os:uefi --arch:x64` emits a PE32+ x86_64 EFI application.
 
-If any sector read fails (carry flag set), execution falls through to a `disk_error` handler that prints an error message and halts.
+## QEMU and OVMF
 
-## Stage 2 — `src/kernel.asm`
+The run target boots with OVMF firmware:
 
-The stage-2 file is the target of the far return from stage 1. It provides the kernel header, sets up a fresh stack, and calls into the C++ kernel.
-
-```nasm
-kernel_header:
-    dw (kernel_end - kernel_header + 511) / 512  ; sector count
-    dw kernel_entry                               ; entry offset
-
-kernel_entry:
-    cli
-    xor ax, ax
-    mov ds, ax
-    mov es, ax
-    mov ss, ax
-    mov sp, 0xFFFE
-    sti
-    call cpp_kernel_entry
-
-halt_forever:
-    hlt
-    jmp halt_forever
-
-align 16
-cpp_kernel_entry:
-    incbin "tmp\kernel_cpp.bin"  ; raw C++ .text section
+```bash
+qemu-system-x86_64 \
+  -machine q35 \
+  -m 256M \
+  -drive if=pflash,format=raw,readonly=on,file=/usr/share/OVMF/OVMF_CODE_4M.fd \
+  -drive format=raw,file=fat:rw:build/efi \
+  -net none
 ```
 
-The `incbin` directive embeds the stripped C++ binary directly into the assembled output so the kernel is a single flat image.
+The FAT drive contains `EFI/BOOT/BOOTX64.EFI`, so the firmware can boot directly into Australis OS.

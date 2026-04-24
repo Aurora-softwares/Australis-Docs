@@ -1,6 +1,6 @@
 [book]
 title = "Australis OS"
-description = "Documentation for the Australis OS project — a from-scratch x86 operating system."
+description = "Documentation for the Australis OS project - a from-scratch x86_64 operating system."
 authors = ["Aurora Softwares"]
 language = "en"
 multilingual = false

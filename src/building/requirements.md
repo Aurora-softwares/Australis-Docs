@@ -1,27 +1,39 @@
 # Requirements
 
-## Platform
+The current v0 build targets Linux-style tooling and boots under QEMU with OVMF.
 
-The v0 build system targets **Windows 10 or later (64-bit)**. All toolchain binaries are bundled inside the repository under `bin/`, so no separate installation or PATH configuration is needed.
+## Required Software
 
-A cross-platform build system is planned for the rewrite.
+| Software | Purpose |
+|----------|---------|
+| `bflat` v8.0.2 or compatible | Compiles C# to a native x86_64 UEFI application |
+| `qemu-system-x86_64` | Runs the VM |
+| OVMF firmware | Provides UEFI firmware for QEMU |
+| `mtools` | Creates and populates the FAT boot image |
+| `make` | Runs the build targets |
 
-## Required software
+On Ubuntu, the system packages are typically:
 
-| Software           | Version | Notes                                        |
-|--------------------|---------|----------------------------------------------|
-| Windows 10+        | 64-bit  | Build scripts are `.bat` files               |
-| Visual Studio Code | Latest  | Used to trigger the build via **F5**         |
-| NASM               | 2.16.01 | Bundled in `bin/nasm-2.16.01/`               |
-| QEMU               | 8.0.0   | Bundled in `bin/qemu-8.0.0/`                 |
-| MinGW-w64 (GCC)    | 11.2.0  | Bundled in `bin/mingw64-11.2.0/`             |
+```bash
+sudo apt install make qemu-system-x86 ovmf mtools libc++1-18 libc++abi1-18 libunwind-18
+```
 
-Because the toolchain is bundled, cloning the repository and pressing **F5** in VS Code is all that is required to build and run.
+If `bflat` is not installed globally, the OS repo can use a local copy at:
 
-## Disk space
+```text
+tools/bflat/bflat
+```
 
-The repository includes pre-built toolchain binaries. Expect several hundred MB of disk space after cloning.
+## Firmware Path
 
-## Repository status
+The default Makefile expects OVMF at:
 
-> The v0 source has not yet been pushed to the public repository. These docs will remain accurate once it is released. Watch the [GitHub repository](https://github.com/Aurora-Softwares/Australis-OS) for updates.
+```text
+/usr/share/OVMF/OVMF_CODE_4M.fd
+```
+
+If your system uses a different path, pass it when running make:
+
+```bash
+make run OVMF_CODE=/path/to/OVMF_CODE.fd
+```

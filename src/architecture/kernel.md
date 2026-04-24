@@ -1,76 +1,50 @@
 # Kernel
 
-The C++ kernel (`src/kernel.cpp`) is a freestanding translation unit that runs in 16-bit real mode. It has no standard library, no runtime, and no OS below it — every hardware interaction goes through inline assembly or BIOS interrupts.
+The current v0 "kernel" is a tiny C# UEFI program. It is best understood as a bootable kernel seed rather than a complete operating-system kernel.
 
-## Entry point
+## Entry Code
 
-```cpp
-extern "C" void kernel_main() {
-    debug_init();   // set up COM1 serial port
-    clear_screen();
-    print_welcome();
+```csharp
+using System;
 
-    for (;;) {
-        // read a line of input, dispatch a command
+ClearScreen();
+Console.WriteLine("Australis OS booted from C#");
+
+while (true)
+{
+}
+
+static void ClearScreen()
+{
+    for (int row = 0; row < 50; row++)
+    {
+        Console.SetCursorPosition(0, row);
+
+        for (int column = 0; column < 160; column++)
+        {
+            Console.Write(' ');
+        }
     }
+
+    Console.SetCursorPosition(0, 0);
 }
 ```
 
-`kernel_main` is declared `extern "C"` so the NASM wrapper can call it by name without C++ name mangling.
+The program clears the visible UEFI text area, prints the boot message, and then stays alive so the VM screen remains visible.
 
-## Screen output — BIOS int 0x10
+## Runtime Model
 
-All text output uses the BIOS teletype service (interrupt `0x10`, function `0x0E`):
+The code is compiled ahead of time by bflat into a native EFI binary. It does not run on top of Windows, Linux, .NET, or another operating system.
 
-```cpp
-static inline void print_char(char c) {
-    asm volatile (
-        "int $0x10\n"
-        :
-        : "a"(static_cast<uint16_t>(0x0E00 | static_cast<uint8_t>(c))),
-          "b"(static_cast<uint16_t>(0x0007))   // page 0, white on black
-        : "cc"
-    );
-}
-```
+The v0 runtime deliberately avoids features that would require a richer managed runtime contract, such as threads, reflection, dynamic loading, or general heap-heavy code.
 
-Screen clearing uses function `0x06` (scroll up) to blank the entire 80×25 area, followed by function `0x02` to home the cursor.
+## Not Implemented Yet
 
-## Keyboard input — BIOS int 0x16
-
-Characters are read one at a time using BIOS keyboard service function `0x00`:
-
-```cpp
-static inline char bios_read_char() {
-    uint16_t ax;
-    asm volatile (
-        "xor %%ah, %%ah\n"
-        "int $0x16\n"
-        : "=a"(ax)
-        :
-        : "cc"
-    );
-    return static_cast<char>(ax & 0x00FF);
-}
-```
-
-The call blocks until a key is pressed. The low byte of `AX` is the ASCII character.
-
-## Command system
-
-Commands are defined in `src/commands.hpp` as a flat table of name/function-pointer pairs:
-
-```cpp
-struct Command {
-    const char* name;
-    void(*fn)();
-};
-
-static Command g_cmds[] = {
-    { "foo",   &print_bar },
-    { "clear", &bios_clear_screen },
-    { "help",  &cmd_help },
-};
-```
-
-The shell reads a line into a fixed 64-byte buffer, then walks `g_cmds` to find a matching name and calls its function.
+- Keyboard input
+- Shell commands
+- Interrupt handling
+- Memory management
+- Filesystems
+- Drivers
+- Userland
+- Hydrogen integration

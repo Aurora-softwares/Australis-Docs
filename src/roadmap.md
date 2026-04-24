@@ -1,46 +1,35 @@
 # Roadmap
 
-## Current iteration — v0
+## Current Iteration: v0
 
-The v0 codebase is a proof-of-concept that validates the two-stage boot pipeline and establishes that a freestanding C++ kernel can be assembled, loaded, and run from real hardware constraints. It is not the final design.
+The current v0 proves that Australis OS can boot as a 64-bit x86 UEFI application written in C#.
 
 **What v0 proves:**
 
-- A custom stage-1 NASM bootloader can load a multi-sector kernel from disk using CHS addressing
-- A freestanding C++ translation unit can run in 16-bit real mode with no runtime or standard library
-- BIOS interrupts (int 0x10, 0x13, 0x16) are sufficient for basic screen, disk, and keyboard I/O
-- COM1 serial output works at 38400 baud for debug visibility in QEMU
-- A flat command dispatch table is a workable starting structure for a shell
+- C# can be compiled ahead of time into a native UEFI binary.
+- QEMU + OVMF can boot `EFI/BOOT/BOOTX64.EFI`.
+- Australis can clear the screen and print text without an existing OS underneath it.
+- The project has a simple repeatable build surface through `make build`, `make image`, and `make run`.
 
-## The rewrite
-
-The current codebase will be replaced from the ground up. The rewrite targets **x86-64 (long mode)** exclusively and will be written primarily in **[Hylang](https://github.com/Aurora-Softwares/Hylang-Compiler)**, Aurora Softwares' own systems programming language, once it reaches sufficient maturity.
-
-### Target design
-
-- **Architecture:** x86-64 only, long mode from the start
-- **Primary language:** Hylang for kernel and userland code
-- **Boot:** UEFI or a modern multiboot protocol (e.g., Limine)
-- **Memory model:** proper virtual memory with paging
-- **No real-mode dependency:** BIOS calls replaced by firmware-agnostic drivers
-
-### Rough phase plan
+## Near-Term Milestones
 
 | Phase | Goal |
 |-------|------|
-| 0 | Hylang matures enough to write kernel-adjacent code (unsafe model, pointer support, no-runtime profiles) |
-| 1 | New bootloader and kernel skeleton in long mode, basic UEFI or Limine boot |
-| 2 | Memory management: physical allocator, virtual memory, paging |
-| 3 | Basic process model and kernel/user separation |
-| 4 | VGA/framebuffer text output without BIOS |
-| 5 | Keyboard and timer drivers |
-| 6 | Filesystem (read-only to start) |
-| 7 | First userland programs written in Hylang |
-| 8 | Shell and core utilities |
-| 9 | Graphical subsystem (long-term) |
+| 0 | Bootable C# UEFI app that clears the screen and prints a message |
+| 1 | Keyboard input and character echo |
+| 2 | Minimal command prompt |
+| 3 | Basic diagnostics and panic output |
+| 4 | Early memory/runtime strategy for kernel work |
+| 5 | Prepare the path for Hydrogen-authored kernel code |
 
-The exact scope of each phase will be refined as Hylang's systems programming model matures. See the [Hylang roadmap](https://aurora-softwares.github.io/Hylang-Docs/roadmap.html) for the language-side prerequisites.
+## Longer-Term Direction
 
-## What is not changing
+Australis is intended to become a usable OS built from scratch. The long-term direction is:
 
-The goal remains the same: a usable OS built entirely from scratch, without inheriting an existing kernel. The only change is the language (Hylang instead of C/C++), the architecture (x86-64 long mode instead of real mode), and the boot path (firmware-agnostic instead of BIOS-only).
+- **Architecture:** x86_64 first.
+- **Boot:** UEFI-first, with BIOS out of scope for the current line of work.
+- **Language direction:** C# now as a practical bridge toward Hydrogen.
+- **Future primary language:** Hydrogen once its systems programming model is ready.
+- **Kernel goals:** memory management, drivers, shell, filesystem support, and eventually userland.
+
+See the [Hydrogen roadmap](https://aurora-softwares.github.io/Hylang-Docs/roadmap.html) for the language-side prerequisites.

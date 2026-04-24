@@ -1,49 +1,30 @@
 # Architecture Overview
 
-Australis OS v0 is a real-mode x86 OS. Everything runs in 16-bit mode using BIOS services — there is no protected mode, paging, or memory management unit involvement yet.
+Australis OS v0 is a minimal x86_64 UEFI boot milestone. It is not yet a full kernel with drivers or a shell; it is a native C# UEFI application that proves the project can boot in a VM and draw text to the firmware console.
 
-## Boot sequence
+## Boot Sequence
 
-```
-BIOS
-  └── loads sector 0 (bootloader.asm) to 0x7C00
-        └── loads remaining sectors to 0x1000:0
-              └── far-returns into kernel.asm
-                    └── calls kernel_main() in kernel.cpp
-                          └── REPL loop
-```
-
-## Memory layout
-
-| Address         | Contents                                       |
-|-----------------|------------------------------------------------|
-| `0x7C00`        | Stage-1 bootloader (loaded by BIOS)            |
-| `0x1000:0x0000` | Kernel image start (loaded by bootloader)      |
-| `0x1000:entry`  | Kernel entry point (read from image header)    |
-| `0xFFFE`        | Stack top (set by kernel wrapper)              |
-
-## Source files
-
-| File                   | Role                                              |
-|------------------------|---------------------------------------------------|
-| `src/bootloader.asm`   | Stage-1: loads the kernel from disk               |
-| `src/kernel.asm`       | Stage-2: sets up stack, embeds C++ binary, calls `kernel_main` |
-| `src/kernel.cpp`       | C++ kernel: screen, keyboard, shell, serial debug |
-| `src/commands.hpp`     | Command dispatch table                            |
-| `build.bat`            | Build and launch script                           |
-
-## Toolchain flags
-
-The C++ kernel is compiled with strict freestanding flags to produce raw machine code with no runtime dependencies:
-
-```
--m16                          16-bit code generation
--ffreestanding                no standard library
--fno-exceptions               no C++ exception tables
--fno-rtti                     no runtime type info
--nostdlib                     no CRT startup
--fno-stack-protector          no canary overhead
--Os                           optimize for size
+```text
+QEMU
+  └── OVMF UEFI firmware
+        └── loads EFI/BOOT/BOOTX64.EFI
+              └── enters C# code compiled by bflat
+                    └── clears the console
+                    └── prints "Australis OS booted from C#"
+                    └── waits forever
 ```
 
-`objcopy` then strips the output to just the `.text` section, which `kernel.asm` embeds via `incbin`.
+## Source Layout
+
+| Path | Role |
+|------|------|
+| `src/boot/Program.cs` | C# UEFI entry code |
+| `Makefile` | Build, image, run, and clean targets |
+| `build/efi/EFI/BOOT/BOOTX64.EFI` | Generated UEFI application |
+| `build/australis-uefi.img` | Generated FAT boot image |
+
+## Design Boundaries
+
+v0 uses UEFI firmware services through bflat's UEFI target and `System.Console` support. It does not use BIOS, real mode, GRUB, Limine, paging setup, a custom bootloader, or a C/C++ shim.
+
+The immediate goal is confidence in the boot path and language direction. Later milestones can replace this tiny UEFI app with a more kernel-like runtime, then move toward Hydrogen once the language is ready for low-level work.
