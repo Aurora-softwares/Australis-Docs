@@ -43,4 +43,4 @@ static inline void debug_putc(char c) {
 
 ## Viewing output in QEMU
 
-QEMU is launched with `-serial stdio`, so serial output appears directly in the terminal window alongside the QEMU display. The first message written is `{before}` immediately after `debug_init()` returns, confirming the serial channel is live before any screen interaction.
+QEMU is launched with `-serial stdio`, so serial output appears directly in the terminal window alongside the QEMU display. A confirmation message is written immediately after `debug_init()` returns, confirming the serial channel is live before any screen interaction.
