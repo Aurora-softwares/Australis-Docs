@@ -32,4 +32,4 @@ Australis is intended to become a usable OS built from scratch. The long-term di
 - **Future primary language:** Hydrogen once its systems programming model is ready.
 - **Kernel goals:** memory management, drivers, shell, filesystem support, and eventually userland.
 
-See the [Hydrogen roadmap](https://aurora-softwares.github.io/Hylang-Docs/roadmap.html) for the language-side prerequisites.
+See the [Hydrogen roadmap](https://aurora-softwares.github.io/Hylang-Docs/roadmap) for the language-side prerequisites.

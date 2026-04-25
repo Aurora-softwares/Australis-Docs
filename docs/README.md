@@ -1,3 +1,7 @@
+---
+slug: /
+---
+
 # Australis OS
 
 [![Status](https://img.shields.io/badge/status-v0_booting-green?style=flat-square)](https://github.com/Aurora-Softwares/Australis-OS)
