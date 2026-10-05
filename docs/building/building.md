@@ -8,10 +8,10 @@ Run these commands from the `Australis-OS` repository.
 make build
 ```
 
-This compiles:
+This compiles the Hylang source:
 
 ```text
-src/boot/Program.cs
+src/boot/Program.hy
 ```
 
 into:
@@ -26,19 +26,19 @@ The output should identify as a PE32+ x86_64 EFI application:
 file build/efi/EFI/BOOT/BOOTX64.EFI
 ```
 
-## Create the Boot Image
+## Create the Bootable ISO
 
 ```bash
-make image
+make iso
 ```
 
 This creates:
 
 ```text
-build/australis-uefi.img
+build/australis-hylang-hello.iso
 ```
 
-The image contains the generated EFI binary at `EFI/BOOT/BOOTX64.EFI`.
+The ISO contains a FAT EFI boot image at its UEFI El Torito boot entry. Use `make image` as well when a raw FAT disk image is useful.
 
 ## Run in QEMU
 
@@ -46,10 +46,10 @@ The image contains the generated EFI binary at `EFI/BOOT/BOOTX64.EFI`.
 make run
 ```
 
-The VM should boot through OVMF, clear the screen, and print:
+The VM should boot through OVMF and print:
 
 ```text
-Australis OS booted from C#
+Hello world from Hylang!
 ```
 
 ## Clean

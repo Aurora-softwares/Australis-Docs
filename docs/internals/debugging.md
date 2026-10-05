@@ -1,6 +1,6 @@
 # Debugging
 
-Debugging for v0 is focused on proving that the UEFI binary builds and boots.
+Debugging for v0 is focused on proving that Hylang compiles to a UEFI binary which boots.
 
 ## Build Checks
 
@@ -20,7 +20,7 @@ file build/efi/EFI/BOOT/BOOTX64.EFI
 Expected output includes:
 
 ```text
-PE32+ executable (EFI application) x86-64
+PE32+ executable for EFI (application), x86-64
 ```
 
 ## Boot Checks
@@ -31,7 +31,7 @@ Run:
 make run
 ```
 
-The QEMU window should show the Australis boot message after OVMF starts the EFI application.
+The QEMU window should show `Hello world from Hylang!` after OVMF starts the EFI application.
 
 ## Current Limits
 

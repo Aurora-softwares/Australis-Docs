@@ -10,19 +10,18 @@ The generated binary is placed at:
 EFI/BOOT/BOOTX64.EFI
 ```
 
-That path is the standard removable-media fallback path for x86_64 UEFI firmware. OVMF discovers and runs it automatically when QEMU exposes the build directory as a FAT drive.
+That path is the standard removable-media fallback path for x86_64 UEFI firmware. The ISO build places it in a FAT EFI boot image and exposes that image through an El Torito UEFI boot entry.
 
 ## Build Command
 
-The EFI application is compiled from C# with bflat:
+The EFI application is compiled from Hylang with the self-hosted compiler:
 
 ```bash
-bflat build --stdlib:zero --os:uefi --arch:x64 \
-  -o build/efi/EFI/BOOT/BOOTX64.EFI \
-  src/boot/Program.cs
+hydrogen-stage1 compile src/boot/Program.hy --target uefi-x64 \
+  -o build/efi/EFI/BOOT/BOOTX64.EFI
 ```
 
-`--stdlib:zero` keeps the runtime surface tiny, and `--os:uefi --arch:x64` emits a PE32+ x86_64 EFI application.
+The constrained target emits a PE32+ x86_64 EFI application with no managed runtime.
 
 ## QEMU and OVMF
 
@@ -33,8 +32,8 @@ qemu-system-x86_64 \
   -machine q35 \
   -m 256M \
   -drive if=pflash,format=raw,readonly=on,file=/usr/share/OVMF/OVMF_CODE_4M.fd \
-  -drive format=raw,file=fat:rw:build/efi \
+  -cdrom build/australis-hylang-hello.iso \
   -net none
 ```
 
-The FAT drive contains `EFI/BOOT/BOOTX64.EFI`, so the firmware can boot directly into Australis OS.
+The ISO's FAT boot image contains `EFI/BOOT/BOOTX64.EFI`, so the firmware can boot directly into Australis OS.

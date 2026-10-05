@@ -1,16 +1,15 @@
 # Terminal
 
-The current terminal is intentionally print-only. On boot, Australis OS clears the UEFI console and writes one line:
+The current terminal is intentionally print-only. On boot, Australis OS writes one line to the UEFI console:
 
 ```text
-Australis OS booted from C#
+Hello world from Hylang!
 ```
 
 ## Current Behavior
 
-- Clears the firmware text console before printing.
 - Prints a fixed boot message.
-- Waits forever so the message remains visible.
+- Returns to firmware after the write; QEMU/OVMF leaves the text visible.
 
 ## Not Yet Included
 
