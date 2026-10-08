@@ -2,7 +2,7 @@ name: Deploy Docusaurus site to Pages
 
 on:
   push:
-    branches: ["main"]
+    branches: ["Release"]
   workflow_dispatch:
 
 permissions:
