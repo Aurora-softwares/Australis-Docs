@@ -38,5 +38,5 @@ The default Makefile expects OVMF at:
 If Hylang or OVMF live elsewhere, pass their paths when running make:
 
 ```bash
-make run HYDROGEN=/path/to/hydrogen-stage1 OVMF_CODE=/path/to/OVMF_CODE.fd
+make run HYDROGEN=/path/to/hy OVMF_CODE=/path/to/OVMF_CODE.fd
 ```
