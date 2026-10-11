@@ -1,29 +1,27 @@
-# Architecture Overview
+# Architecture overview
 
-Australis OS v0 is a minimal x86_64 UEFI boot milestone. It is not yet a full kernel with drivers or a shell; it is a native Hylang UEFI application that proves the language can boot in a VM and draw text to the firmware console.
-
-## Boot Sequence
+Australis has a UEFI bootloader and a separate freestanding Hylang kernel. The self-hosted Hydrogen compiler builds both from the `src/australlis.hyproj` OS project.
 
 ```text
-QEMU
-  └── OVMF UEFI firmware
-        └── loads EFI/BOOT/BOOTX64.EFI
-              └── enters Hylang code compiled by `hydrogen-stage1 compile --target uefi-x64`
-                    └── prints "Hello world from Hylang!"
-                    └── returns to the firmware after printing
+QEMU / OVMF
+  → EFI/BOOT/BOOTX64.EFI (PE32+ bootloader)
+  → EFI/AUSTRALIS/KERNEL.BIN (raw AUKR kernel)
+  → kernel memory, paging, interrupts and devices
+  → HyFS root mounted through AHCI or NVMe
+  → shell and checked .exec programs
 ```
 
-## Source Layout
+The bootloader loads and validates the raw kernel, captures the final firmware memory map, exits UEFI boot services, switches to a dedicated kernel stack, and calls `KernelMain.Run(long bootInfo)`. After handoff, the kernel uses its own services; firmware text output is replaced by COM1 and direct framebuffer output.
+
+## Source and image layout
 
 | Path | Role |
-|------|------|
-| `src/boot/Program.hy` | Hylang UEFI entry code |
-| `Makefile` | Build, raw-image, ISO, run, and clean targets |
-| `build/efi/EFI/BOOT/BOOTX64.EFI` | Generated UEFI application |
-| `build/australis-hylang-hello.iso` | Generated UEFI-bootable ISO |
+| --- | --- |
+| `src/bootloader/program.hy` | UEFI boot and kernel handoff |
+| `src/kernel/KernelMain.hy` | Kernel entry and subsystem initialization |
+| `src/kernel/` | Memory, interrupts, PCI, USB, storage, VFS, console and user runtime |
+| `applications/Applications.hyproj` | Aggregate for bundled `.exec` applications |
+| `rootfs/` | Static HyFS root files |
+| `build/australis-hylang.iso` | Hybrid boot and root-filesystem image |
 
-## Design Boundaries
-
-v0 uses the UEFI text-output protocol through Hylang's deliberately constrained `uefi-x64` target. It does not use BIOS, real mode, GRUB, Limine, paging setup, a custom bootloader, C#, bflat, or a C/C++ shim.
-
-The immediate goal is confidence in the boot path and language direction. Later milestones grow the Hydrogen compiler and the planned `Hydrogen.Uefi` library together, then replace this tiny firmware app with a kernel-like runtime.
+The default root is read-only HyFS v1, selected from the ISO's GPT partition table by type GUID. HyFS v2 is an opt-in image with directories and metadata. The checked AUEX runtime gives `.exec` programs bounded code and data regions, terminal and read-only file operations, and an instruction limit. It is currently software-enforced isolation rather than native ring-3 execution.

@@ -1,32 +1,16 @@
 # Kernel
 
-The current v0 "kernel" is a tiny Hylang UEFI program. It is best understood as a bootable kernel seed rather than a complete operating-system kernel.
+The freestanding kernel begins at `KernelMain.Run(long bootInfo)` after the UEFI bootloader has ended boot services. It runs a compiled Hylang method graph from a raw `AUKR` image. It does not use Linux, .NET, or firmware calls.
 
-## Entry Code
+## Current services
 
-```hylang
-public class Program {
-    public static void Main(string[] args) {
-        System.Console.WriteLine("Hello world from Hylang!");
-    }
-}
-```
+- Physical pages, owned virtual mappings, and page-backed objects, arrays, and strings.
+- A GDT, IDT, PIC/APIC interrupt handling, timer, and an allocation-free fatal exception report.
+- PCI discovery, MMIO mappings, DMA buffers, and AHCI or NVMe block-device access.
+- GPT validation, a VFS, and a read-only HyFS root. An opt-in HyFS v2 image adds directories and metadata.
+- A COM1 shell, framebuffer terminal, USB keyboard input, and one USB mass-storage device mounted at `/usb`.
+- A checked AUEX interpreter for `.exec` programs, with terminal and read-only file syscalls.
 
-The program prints a boot message and returns to the UEFI firmware. QEMU/OVMF leaves the text visible, which makes it suitable for this proof.
+The kernel initializes its own page-table hierarchy and removes the null-page mapping. The panic path captures the exception frame and registers, writes a report directly to polled COM1 and the framebuffer, then halts. It can be exercised with the `panic-test` shell command; this intentionally stops the VM.
 
-## Runtime Model
-
-The code is compiled ahead of time by Hylang's `uefi-x64` target into a native EFI binary. It does not run on top of Windows, Linux, .NET, or another operating system.
-
-The v0 target deliberately avoids features that would require a richer firmware runtime contract, such as threads, reflection, dynamic loading, general heap allocation, and arbitrary method calls.
-
-## Not Implemented Yet
-
-- Keyboard input
-- Shell commands
-- Interrupt handling
-- Memory management
-- Filesystems
-- Drivers
-- Userland
-- A `Hydrogen.Uefi` library and broader firmware bindings
+The current storage and USB paths are bounded bootstrap implementations. Native ring-3 processes, a general writable root filesystem, multiple simultaneous USB devices, and broad physical hardware validation are still in progress. See the [roadmap](../roadmap) for the remaining work.

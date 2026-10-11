@@ -1,38 +1,20 @@
 # Debugging
 
-Debugging for v0 is focused on proving that Hylang compiles to a UEFI binary which boots.
-
-## Build Checks
-
-Confirm the EFI binary exists:
+## Check build artifacts
 
 ```bash
 make build
 test -f build/efi/EFI/BOOT/BOOTX64.EFI
-```
-
-Confirm it is an x86_64 UEFI application:
-
-```bash
+test -f build/efi/EFI/AUSTRALIS/KERNEL.BIN
 file build/efi/EFI/BOOT/BOOTX64.EFI
 ```
 
-Expected output includes:
+The bootloader should identify as a PE32+ x86-64 EFI application. The separate `KERNEL.BIN` is a raw `AUKR` image, not another EFI application.
 
-```text
-PE32+ executable for EFI (application), x86-64
-```
+## Check the live boot
 
-## Boot Checks
+`make run-serial` shows the shell in the launching terminal. Use `make run-serial-nvme` to exercise the NVMe root instead of AHCI. At the prompt, `devices`, `mounts`, `ls`, and `cat /hello.txt` check device discovery and the mounted HyFS root. `run /user-demo.exec` and `ps` check the user-program path.
 
-Run:
+The repository also provides host and QEMU smoke tests. Useful entry points include `make test-stage2`, `make test-stage2-boot`, `make test-stage3`, `make test-stage4`, `make test-stage5`, and `make test-kernel-panic`. The last target expects the kernel to halt after an intentional fault; the shell command `panic-test` does the same in a manual boot.
 
-```bash
-make run
-```
-
-The QEMU window should show `Hello world from Hylang!` after OVMF starts the EFI application.
-
-## Current Limits
-
-There is no serial debug channel, logging framework, panic handler, debugger stub, or test harness yet. Those will become useful once v0 grows beyond a print-only boot milestone.
+Storage, USB, HyFS and terminal tests have more targeted Makefile targets. See the OS repository's `README.md` and `Makefile` for their current matrix and expected devices.

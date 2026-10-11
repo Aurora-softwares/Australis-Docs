@@ -1,56 +1,46 @@
-# Building and Running
+# Building and running
 
-Run these commands from the `Australis-OS` repository.
+Run these commands from the `Australis-OS` repository. Check [Requirements](requirements) first.
 
-## Build
+## Build the boot images
 
 ```bash
 make build
 ```
 
-This compiles the Hylang source:
-
-```text
-src/boot/Program.hy
-```
-
-into:
+This builds `src/australlis.hyproj`, an `os` project that references separate `efi` and `kernel` projects. The outputs are:
 
 ```text
 build/efi/EFI/BOOT/BOOTX64.EFI
+build/efi/EFI/AUSTRALIS/KERNEL.BIN
 ```
 
-The output should identify as a PE32+ x86_64 EFI application:
+The first file is a PE32+ UEFI bootloader; the second is a raw `AUKR` kernel image. You can inspect them with `file` and build the project directly with `hy build src/australlis.hyproj -o build/efi` when using a compatible compiler.
 
-```bash
-file build/efi/EFI/BOOT/BOOTX64.EFI
-```
-
-## Create the Bootable ISO
+## Package the root filesystem and ISO
 
 ```bash
 make iso
 ```
 
-This creates:
+The build compiles application projects from `applications/Applications.hyproj` to `.exec` files, stages them with `rootfs/`, creates a read-only HyFS image, and produces `build/australis-hylang.iso`. The hybrid ISO contains a UEFI boot entry, GPT EFI System Partition, and HyFS partition.
 
-```text
-build/australis-hylang-hello.iso
-```
-
-The ISO contains a FAT EFI boot image at its UEFI El Torito boot entry. Use `make image` as well when a raw FAT disk image is useful.
+`make image` creates `build/australis-hylang-uefi.img`, a FAT-only image containing the EFI files. Use the ISO for a live HyFS root. For the optional HyFS v2 directory format, use `make iso-hyfs2`.
 
 ## Run in QEMU
 
-```bash
-make run
-```
+| Command | Boot and console |
+| --- | --- |
+| `make run` | ISO boot, AHCI root, graphical framebuffer and USB keyboard |
+| `make run-serial` | ISO boot, AHCI root, COM1 shell in the terminal |
+| `make run-nvme` | ISO boot, NVMe root, graphical framebuffer and USB keyboard |
+| `make run-serial-nvme` | ISO boot, NVMe root, COM1 shell |
+| `make run-disk` | Boot from the ISO's GPT EFI partition as an AHCI disk |
+| `make run-usb-storage` | AHCI root plus a second read-only HyFS volume at `/usb` |
 
-The VM should boot through OVMF and print:
+Wait for `australis> `, then try `help`, `ls`, `cat /hello.txt`, or `run /user-demo.exec`. The `run` command launches a checked user program; `ps` reports its last result. The USB storage mode uses COM1 input because the live xHCI path currently owns one root-port device.
 
-```text
-Hello world from Hylang!
-```
+For HyFS v2, run `make run-hyfs2-serial` or `make run-hyfs2-nvme-serial`. A separate persistent data disk is available through `make hyfs2-data-disk` and `make run-hyfs2-data-ahci` or `make run-hyfs2-data-nvme`; see the OS repository's `docs/hyfs-v2.md` for its format and recovery rules.
 
 ## Clean
 
@@ -58,4 +48,4 @@ Hello world from Hylang!
 make clean
 ```
 
-This removes generated build artifacts under `build/`.
+This removes `build/`, including a data disk kept at the default `build/hyfs2-data.img` path. Put `HYFS2_DATA_DISK` outside `build/` if you need to retain it across cleans.
