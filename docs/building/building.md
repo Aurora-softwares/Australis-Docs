@@ -38,7 +38,7 @@ The build compiles application projects from `applications/Applications.hyproj` 
 | `make run-disk` | Boot from the ISO's GPT EFI partition as an AHCI disk |
 | `make run-usb-storage` | AHCI root plus a second read-only HyFS volume at `/usb` |
 
-Wait for `australis> `, then try `help`, `ls`, `cat /hello.txt`, or `run /user-demo.exec`. The `run` command launches a checked user program; `ps` reports its last result. The USB storage mode uses COM1 input because the live xHCI path currently owns one root-port device.
+Wait for `kmon> `, then try `help`, `ls`, `cat /hello.txt`, or `run /user-demo.exec`. The `run` command launches a checked user program; `ps` reports its last result. The USB storage mode uses COM1 input because the live xHCI path currently owns one root-port device.
 
 For HyFS v2, run `make run-hyfs2-serial` or `make run-hyfs2-nvme-serial`. A separate persistent data disk is available through `make hyfs2-data-disk` and `make run-hyfs2-data-ahci` or `make run-hyfs2-data-nvme`; see the OS repository's `docs/hyfs-v2.md` for its format and recovery rules.
 

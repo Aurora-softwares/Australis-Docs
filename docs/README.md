@@ -17,7 +17,7 @@ make iso
 make run
 ```
 
-Click the QEMU display to give its USB keyboard focus. At the `australis> ` prompt, enter `help`, `ls`, or `cat /hello.txt`. For a shell in the launching terminal, use `make run-serial` instead. See [Building and running](building/) for the other boot and storage modes.
+Click the QEMU display to give its USB keyboard focus. At the `kmon> ` prompt, enter `help`, `ls`, or `cat /hello.txt`. For a shell in the launching terminal, use `make run-serial` instead. See [Building and running](building/) for the other boot and storage modes.
 
 ## Current scope
 
