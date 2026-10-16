@@ -8,13 +8,13 @@ The development build uses Linux-style tools and boots under QEMU with OVMF.
 | `make` | Runs build and test targets |
 | `mtools` (`mformat`, `mmd`, `mcopy`) | Builds the FAT EFI image |
 | `xorriso` | Builds the hybrid UEFI ISO |
-| Python 3 | Packs the HyFS root and runs smoke tests |
+| Python 3, GCC, and binutils | Generate the native runtime blob and test images, pack HyFS, and run smoke tests |
 | `qemu-system-x86_64` and OVMF | Run and test the image |
 
 On Ubuntu, the system packages are typically:
 
 ```bash
-sudo apt install make python3 qemu-system-x86 ovmf mtools xorriso
+sudo apt install make python3 gcc binutils qemu-system-x86 ovmf mtools xorriso
 ```
 
 The Makefile defaults to `../Hylang-Compiler/build/self_hosting/hydrogen-stage1`. Build the compiler from the adjacent source checkout if needed:
@@ -38,4 +38,4 @@ The default OVMF path is `/usr/share/OVMF/OVMF_CODE_4M.fd`. Override it when run
 make run OVMF_CODE=/path/to/OVMF_CODE.fd
 ```
 
-The published Hydrogen `alpha-0.0.2` release predates some Australis project features. For this development build, use a compiler checkout with the raw-kernel and `.exec` support described above.
+The published Hydrogen `alpha-0.0.2` release predates the current raw-kernel and AUEX project features. Use a development compiler checkout for this OS tree. `make iso` also builds a local application compiler from that checkout; keep the sibling `Hylang-Compiler` source available.

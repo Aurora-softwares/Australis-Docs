@@ -7,10 +7,13 @@ The freestanding kernel begins at `KernelMain.Run(long bootInfo)` after the UEFI
 - Physical pages, owned virtual mappings, and page-backed objects, arrays, and strings.
 - A GDT, IDT, PIC/APIC interrupt handling, timer, and an allocation-free fatal exception report.
 - PCI discovery, MMIO mappings, DMA buffers, and AHCI or NVMe block-device access.
-- GPT validation, a VFS, and a read-only HyFS root. An opt-in HyFS v2 image adds directories and metadata.
+- GPT validation, a VFS, and a read-only HyFS 2 root. An optional `/data` volume supports checked writes.
 - A COM1 shell, framebuffer terminal, USB keyboard input, and one USB mass-storage device mounted at `/usb`.
-- A checked AUEX interpreter for `.exec` programs, with terminal and read-only file syscalls.
+- A checked AUEX interpreter for `.exec` programs, with process records, cooperative scheduling, terminal/file calls, and bounded channel IPC.
+- Bounded AUN1 ring-3 children with private user mappings, code/data/stack pages, a stack guard, TSS entry, PID/exit syscalls, and contained page or general-protection faults.
 
-The kernel initializes its own page-table hierarchy and removes the null-page mapping. The panic path captures the exception frame and registers, writes a report directly to polled COM1 and the framebuffer, then halts. It can be exercised with the `panic-test` shell command; this intentionally stops the VM.
+Australis uses hardware ring 0 for the kernel and ring 3 for AUN1 children. Rings 1 and 2 are unused. AUEX isolation is enforced by interpreter checks inside ring 0; it is not a third hardware privilege level. A native child fault releases its owned pages and records the fault while PID 1 and KMon continue.
 
-The current storage and USB paths are bounded bootstrap implementations. Native ring-3 processes, a general writable root filesystem, multiple simultaneous USB devices, and broad physical hardware validation are still in progress. See the [roadmap](../roadmap) for the remaining work.
+The kernel initializes its own page-table hierarchy and removes the null-page mapping. The fatal panic path reports to polled COM1 and the framebuffer, then halts. The intentional `panic` command is available from KMon in `D` debug boot; `make test-kernel-panic` checks it in QEMU.
+
+The current storage and USB paths are bounded bootstrap implementations. Native terminal/file/IPC syscalls, native preemption, multiple simultaneous USB devices, and broad physical hardware validation are still in progress. See the [roadmap](../roadmap) for remaining work.

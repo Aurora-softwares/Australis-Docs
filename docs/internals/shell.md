@@ -2,18 +2,18 @@
 
 The shell appears as `australis> ` after the kernel mounts its root. Use `make run` for the framebuffer and USB keyboard, or `make run-serial` for the COM1 shell in your terminal. COM1 runs at 115200 8N1; the kernel receives bytes through an IRQ-fed ring and executes commands outside the interrupt handler.
 
-Start with:
+Start with these commands at the normal system shell:
 
 ```text
 australis> help
 australis> ls
 australis> cat /hello.txt
-australis> run /user-demo.exec
+australis> run /System/Bin/hello-world.exec
 australis> ps
 ```
 
-The current registry includes `help`, `echo`, `ls`, `cat`, `devices`, `mounts`, `pwd`, `run`, `ps`, and `version`. `panic-test` deliberately triggers the fatal exception path. The line editor supports cursor movement, deletion, Ctrl-A/Ctrl-E, Ctrl-C, Ctrl-L, Ctrl-U, and eight history entries. Its line buffer holds 256 bytes. `cat` accepts files up to 64 KiB.
+The normal shell supports built-in commands, quoted arguments, relative paths, `cd`, `pwd`, `set`, `export`, `unset`, and `path`, as well as external commands from `/System/Bin`. `exit` or Ctrl-D returns to KMon. KMon provides a separate recovery command set and a `panic` command only in `D` debug boot. The line editor has eight history entries and a 256-byte line buffer; KMon's `cat` accepts files up to 64 KiB.
 
-`run` loads a checked AUEX v1 `.exec` program from the mounted filesystem. Bundled applications are compiled from Hylang `type = "exec"` projects. Their code and data regions are bounded and checked; an invalid memory access or division by zero faults the application and returns control to the shell. `ps` reports the last program result. Application source can use terminal input/output, read-only files, and cooperative yield, within the supported compiler subset.
+`run /System/Bin/name.exec` loads a packaged program. Bundled Hylang `type = "exec"` projects compile to AUEX v1, which runs through checked kernel interpretation. AUEX supports terminal, file, process, and bounded channel calls; a program fault returns to the shell. The optional `/data` mount supports checked writes, while the system root remains read-only. AUN1 is a separate small native format: these programs run in ring 3 with private memory and a guarded stack. Their syscall surface currently has PID and exit only, and native faults do not take down PID 1 or KMon.
 
-For a removable HyFS volume, use `make run-usb-storage`; it mounts at `/usb` and uses COM1 for input. The default root is read-only HyFS v1. HyFS v2 can be tried with `make run-hyfs2-serial`; it adds nested paths such as `/System` and `/Bin`.
+For a removable HyFS volume, use `make run-usb-storage`; it mounts at `/usb` and uses COM1 for input. The default root is read-only HyFS 2 with nested paths such as `/System/Bin`. HyFS 1 is available through explicit compatibility targets.
