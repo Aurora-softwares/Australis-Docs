@@ -8,7 +8,7 @@ The freestanding kernel begins at `KernelMain.Run(long bootInfo)` after the UEFI
 - A GDT, IDT, PIC/APIC interrupt handling, timer, and an allocation-free fatal exception report.
 - PCI discovery, MMIO mappings, DMA buffers, and AHCI or NVMe block-device access.
 - GPT validation, a VFS, and a read-only HyFS 2 root. An optional `/data` volume supports checked writes.
-- A COM1 shell, framebuffer terminal, USB keyboard input, and one USB mass-storage device mounted at `/usb`.
+- A KMon recovery console with `status` and `bootinfo` inspection, a framebuffer terminal, USB keyboard input, and one USB mass-storage device mounted at `/usb`.
 - A checked AUEX interpreter for `.exec` programs, with process records, cooperative scheduling, terminal/file calls, and bounded channel IPC.
 - Bounded AUN1 ring-3 children with private user mappings, code/data/stack pages, a stack guard, TSS entry, PID/exit syscalls, and contained page or general-protection faults.
 

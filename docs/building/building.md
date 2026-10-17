@@ -43,6 +43,8 @@ Normal boot reaches `australis> `. Try `help`, `ls`, `cat /hello.txt`, or `ps`. 
 
 The explicit HyFS 2 commands are `make run-serial-hyfs2` and `make run-nvme-serial-hyfs2`. A separate persistent data disk is available through `make data-disk-hyfs2` and `make run-data-ahci` or `make run-data-nvme`; see the OS repository's `docs/hyfs-v2.md` for its format and recovery rules.
 
+For a standalone raw HyFS 2 image, `python3 tools/hyfs2.py check volume.img` reads both superblock generations and reports invalid records plus unreferenced nonzero blocks. It does not repair the image; old copy-on-write data and leaked writes can look the same without an allocation bitmap.
+
 ## Check the boot and isolation paths
 
 ```bash
