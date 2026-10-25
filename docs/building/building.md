@@ -8,14 +8,14 @@ Run these commands from the `Australis-OS` repository. Check [Requirements](requ
 make build
 ```
 
-This builds `src/australlis.hyproj`, an `os` project that references separate `efi` and `kernel` projects. The outputs are:
+This builds `src/australis.hyproj`, an `os` project that references separate `efi` and `kernel` projects. The outputs are:
 
 ```text
 build/efi/EFI/BOOT/BOOTX64.EFI
 build/efi/EFI/AUSTRALIS/KERNEL.BIN
 ```
 
-The first file is a PE32+ UEFI bootloader; the second is a raw `AUKR` kernel image. You can inspect them with `file` and build the project directly with `hy build src/australlis.hyproj -o build/efi` when using a compatible compiler.
+The first file is a PE32+ UEFI bootloader; the second is a raw `AUKR` kernel image. You can inspect them with `file` and build the project directly with `hy build src/australis.hyproj -o build/efi` when using a compatible compiler.
 
 ## Package the root filesystem and ISO
 

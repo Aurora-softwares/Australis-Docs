@@ -1,6 +1,6 @@
 # Architecture overview
 
-Australis has a UEFI bootloader and a separate freestanding Hylang kernel. The self-hosted Hydrogen compiler builds both from the `src/australlis.hyproj` OS project.
+Australis has a UEFI bootloader and a separate freestanding Hylang kernel. The self-hosted Hydrogen compiler builds both from the `src/australis.hyproj` OS project.
 
 ```text
 QEMU / OVMF

@@ -14,4 +14,4 @@ Build both images with:
 make build
 ```
 
-Their output paths come from the `efi` and `kernel` manifests referenced by `src/australlis.hyproj`. See [Building and running](../building/) for ISO packaging and QEMU modes.
+Their output paths come from the `efi` and `kernel` manifests referenced by `src/australis.hyproj`. See [Building and running](../building/) for ISO packaging and QEMU modes.
