@@ -23,7 +23,7 @@ The first file is a PE32+ UEFI bootloader; the second is a raw `AUKR` kernel ima
 make iso
 ```
 
-The build compiles application projects from `applications/Applications.hyproj` to `.exec` files, stages them with `rootfs/`, creates a read-only HyFS 2 image, and produces `build/australis-hyfs2.iso`. The hybrid ISO contains a UEFI boot entry, GPT EFI System Partition, and HyFS 2 partition.
+The build compiles application projects from `src/applications/Applications.hyproj` to `.exec` files, stages them with `rootfs/`, creates a read-only HyFS 2 image, and produces `build/australis-hyfs2.iso`. The hybrid ISO contains a UEFI boot entry, GPT EFI System Partition, and HyFS 2 partition.
 
 `make image` creates `build/australis-hylang-uefi.img`, a FAT-only image containing the EFI files. Use the ISO for a live HyFS root. HyFS 1 remains available through `make iso-hyfs1` for compatibility tests.
 

@@ -24,7 +24,7 @@ The bootloader loads and validates the raw kernel, captures the final firmware m
 | `src/kernel/` | Memory, interrupts, PCI, USB, storage, VFS, console and user runtime |
 | `src/kernel/user/` | AUEX runtime, process records, and native ring-3 execution |
 | `src/userland/system/` | PID 1 and service startup source |
-| `applications/Applications.hyproj` | Aggregate for bundled `.exec` applications |
+| `src/applications/Applications.hyproj` | Aggregate for bundled `.exec` applications |
 | `rootfs/` | Static HyFS root files |
 | `build/australis-hyfs2.iso` | Default hybrid boot and root-filesystem image |
 
