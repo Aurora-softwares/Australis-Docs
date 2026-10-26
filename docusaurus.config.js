@@ -36,7 +36,7 @@ const config = {
           path: 'docs',
           routeBasePath: '/',
           sidebarPath: require.resolve('./sidebars.js'),
-          editUrl: 'https://github.com/Aurora-Softwares/Australis-Docs/edit/main/',
+          editUrl: 'https://github.com/Aurora-Softwares/Australis-Docs/edit/Development/',
           showLastUpdateAuthor: false,
           showLastUpdateTime: false,
         },
@@ -112,7 +112,7 @@ const config = {
               },
               {
                 label: 'Hylang Docs',
-                href: 'https://aurora-softwares.github.io/Hylang-Docs/',
+                href: 'https://hylang.co.uk/',
               },
             ],
           },

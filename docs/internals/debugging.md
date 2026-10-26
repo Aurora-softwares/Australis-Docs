@@ -17,4 +17,4 @@ The bootloader should identify as a PE32+ x86-64 EFI application. The separate `
 
 The repository also provides host and QEMU smoke tests. Useful entry points include `make test-bootloader-negative`, `make test-boot-modes`, `make test-stage2-boot`, `make test-userland-system-boot`, `make test-userland-stage4-supervision`, `make test-userland-stage5-ipc`, `make test-native-user-mode`, and `make test-kernel-panic`. The native test checks ring-3 launch, kernel-memory denial, privileged-instruction denial, and continued PID 1/KMon operation on AHCI and NVMe. The panic target expects a kernel halt; use KMon's `panic` command in a manual `D` debug boot to exercise that path.
 
-Storage, USB, HyFS and terminal tests have more targeted Makefile targets. See the OS repository's `README.md` and `Makefile` for their current matrix and expected devices.
+Storage, USB, HyFS and terminal tests have more targeted Makefile targets. See the [OS repository guide](https://aurora-softwares.github.io/Australis-Docs/reference/os-repository/) and [Makefile](https://github.com/Aurora-softwares/Australis-OS/blob/Development/Makefile) for their current matrix and expected devices.

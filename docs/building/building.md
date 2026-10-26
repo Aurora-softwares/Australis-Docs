@@ -39,7 +39,7 @@ The build compiles application projects from `src/applications/Applications.hypr
 | `make run-usb-storage` | AHCI root plus a second read-only HyFS volume at `/usb` |
 | `make run-data-ahci` / `make run-data-nvme` | Separate writable HyFS 2 data disk at `/data` |
 
-Normal boot reaches `australis> `. Try `help`, `ls`, `cat /hello.txt`, or `ps`. `run /System/Bin/name.exec` launches a packaged checked AUEX program or a bounded native AUN1 image. `exit` returns to `kmon> `; `R` during the boot selection window enters KMon directly. The USB storage mode uses COM1 input because the live xHCI path currently owns one root-port device.
+Normal boot reaches `australis> `. Try `help`, `ls`, `cat /hello.txt`, or `ps`. `run /System/Bin/name.exec` launches a packaged checked AUEX program or a bounded native AUN1 image. `exit` returns to `kmon> `; `R` during the boot selection window enters KMon directly. The USB storage mode uses COM1 input in the reference QEMU test configuration. The xHCI driver has bounded support for two root devices.
 
 The explicit HyFS 2 commands are `make run-serial-hyfs2` and `make run-nvme-serial-hyfs2`. A separate persistent data disk is available through `make data-disk-hyfs2` and `make run-data-ahci` or `make run-data-nvme`; see the OS repository's `docs/hyfs-v2.md` for its format and recovery rules.
 
