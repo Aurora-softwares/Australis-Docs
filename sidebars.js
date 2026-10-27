@@ -77,6 +77,7 @@ const sidebars = {
         'applications/australis-clear',
         'applications/australis-helloworld',
         'applications/australis-hexviewer',
+        'applications/australis-inspector',
         'applications/australis-meminfo',
         'applications/australis-sysinfo',
         'applications/australis-version',
