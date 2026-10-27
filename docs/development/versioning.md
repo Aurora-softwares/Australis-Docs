@@ -45,12 +45,15 @@ The live retained compositor now follows window move and resize changes without
 dropping to the older software fallback; maximized-window synchronization is
 still disabled pending a kernel-panic investigation.
 
-The OS image now builds the `src/drivers/usb` AUDR module into
-`/usb.driver` and loads it from the system filesystem. A QEMU boot
-checks its xHCI register probe and the invalid and absent module paths.
+The OS image builds the `src/drivers/usb` AUDR v2 module into `/usb.driver`.
+Device metadata selects its xHCI capability-length probe from the system
+filesystem; a matching module's result is used during controller setup.
+QEMU checks selected, rejected, mismatched, corrupt, and absent modules and
+retains the built-in register read as fallback.
 [Device binding and lifecycle #156](https://github.com/Aurora-softwares/Australis-OS/issues/156)
-remains In Progress: the built-in xHCI driver still owns USB operations, and
-AHCI/NVMe must remain available before the filesystem can load modules.
+remains In Progress: the built-in xHCI driver still owns ongoing USB I/O,
+AUDR has no DMA/interrupt/callback ownership API, and AHCI/NVMe must remain
+available before the filesystem can load modules.
 
 VirtIO-GPU 2D drag response improved from about **1.9 to 3.2 visible updates
 per second** in the same 1280×800 QEMU TCG screenshot probe after reducing
