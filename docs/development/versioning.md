@@ -45,6 +45,13 @@ The live retained compositor now follows window move and resize changes without
 dropping to the older software fallback; maximized-window synchronization is
 still disabled pending a kernel-panic investigation.
 
+The OS image now builds the `src/drivers/usb` AUDR module into
+`/usb.driver` and loads it from the system filesystem. A QEMU boot
+checks its xHCI register probe and the invalid and absent module paths.
+[Device binding and lifecycle #156](https://github.com/Aurora-softwares/Australis-OS/issues/156)
+remains In Progress: the built-in xHCI driver still owns USB operations, and
+AHCI/NVMe must remain available before the filesystem can load modules.
+
 VirtIO-GPU 2D drag response improved from about **1.9 to 3.2 visible updates
 per second** in the same 1280×800 QEMU TCG screenshot probe after reducing
 software copies and batching nearby damage flushes. The probe includes QEMU
@@ -89,7 +96,7 @@ snapshot on 27 October 2026.
 | `0.5.0` | Usable desktop and graphical applications | 🔴 9 Backlog |
 | `0.6.0` | Sessions, users, permissions, services, and management | 🔴 8 Backlog |
 | `0.7.0` | Networking and audio support | 🔴 8 Backlog |
-| `0.8.0` | Security hardening, installer, signed packages, recovery | 🔴 7 Backlog |
+| `0.8.0` | Security hardening, installer, signed packages, recovery, and driver binding | 🟡 1 In Progress, 7 Backlog |
 | `0.9.0` | Beta qualification, soak/fault tests, physical hardware | 🔴 9 Backlog |
 | `1.0.0` | Stable release gate: end-to-end apps, graphics, files, recovery, support evidence | 🔴 7 Backlog |
 
