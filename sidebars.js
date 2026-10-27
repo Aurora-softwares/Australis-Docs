@@ -31,6 +31,13 @@ const sidebars = {
         'development/os-roadmap',
         'development/active-plan',
         'development/gui-roadmap',
+        'development/checklist-audit',
+        'development/hyfs2-plan',
+        'development/phase7-graphics-foundation',
+        'development/phase8-software-rendering',
+        'development/phase9-display-infrastructure',
+        'development/phase10-native-virtio-gpu',
+        'development/phase11-gpu-infrastructure',
       ],
     },
     {
@@ -40,6 +47,11 @@ const sidebars = {
         'architecture/system-layout',
         'components/bootloader-gates',
         'components/kernel-gates',
+        'components/kernel-reliability',
+        'components/memory-protection',
+        'components/process-scheduling',
+        'components/system-calls-ipc',
+        'components/storage-driver-stability',
         'components/loadable-drivers',
         'components/userland-plan',
         'components/system-startup',
@@ -48,6 +60,11 @@ const sidebars = {
         'components/drivers',
         'components/filesystems',
       ],
+    },
+    {
+      type: 'category',
+      label: 'Desktop design',
+      items: ['desktop/interaction-design'],
     },
     {
       type: 'category',
@@ -70,7 +87,13 @@ const sidebars = {
     {
       type: 'category',
       label: 'Reference',
-      items: ['reference/os-repository'],
+      items: [
+        'reference/os-repository',
+        'reference/aun1-v2',
+        'reference/hyfs-v1',
+        'reference/hyfs-v2',
+        'internals/kernel-panic-qr',
+      ],
     },
   ],
 };

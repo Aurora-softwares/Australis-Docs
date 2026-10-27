@@ -29,7 +29,7 @@ Current assessment:
   separate release requirement.
 
 The Phase 5/6 regression matrix is in
-[active OS plan](https://aurora-softwares.github.io/Australis-Docs/development/active-plan/).
+[storage and driver stability matrix](https://aurora-softwares.github.io/Australis-Docs/components/storage-driver-stability/).
 The xHCI owner accepts up to two simultaneous root devices across its boot
 keyboard, boot mouse, and read-only storage profiles. Mouse motion and buttons
 are queued in normal context for a later graphical consumer. `FramebufferMode`
@@ -207,7 +207,7 @@ the normal-mode `continue` response, and the `panic` mode guard.
 ### H. Kernel stability and security
 
 The Phase 1 invariants, fault classifications, and crash reproduction steps
-are documented by the [kernel completion criteria](https://aurora-softwares.github.io/Australis-Docs/components/kernel-gates/) and the runnable panic checks.
+are documented by the [kernel reliability contract](https://aurora-softwares.github.io/Australis-Docs/components/kernel-reliability/) and the runnable panic checks.
 
 | Done | Requirement | Description |
 | --- | --- | --- |

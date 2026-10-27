@@ -248,7 +248,7 @@ system image and recovery checks; the boot root stays read-only.
 The HyFS 2 format, stable identifiers, metadata/CRC validation, transactional
 creation/replacement, and flush behavior are kernel/storage responsibilities;
 their contract and remaining removable-media write policy are tracked in
-`../../docs/hyfs-v2.md` and `../../docs/hyfs2-plan.md`, rather than as
+[HyFS 2 format](https://aurora-softwares.github.io/Australis-Docs/reference/hyfs-v2/) and [HyFS 2 plan](https://aurora-softwares.github.io/Australis-Docs/development/hyfs2-plan/), rather than as
 unimplemented userland features. `make test-userland-stage3` covers the
 packaged tree and fallback from missing, invalid, or corrupt system images.
 

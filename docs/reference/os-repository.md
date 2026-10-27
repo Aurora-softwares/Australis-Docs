@@ -296,7 +296,7 @@ writes the same hexadecimal report directly to polled COM1 and the GOP
 framebuffer before halting. In `D` Debug boot, KMon's `panic` command
 deliberately reads the protected null page; `panic gp` accesses a noncanonical
 address to exercise general-protection classification under QEMU. See the
-[kernel completion criteria](https://aurora-softwares.github.io/Australis-Docs/components/kernel-gates/) for current fault-path evidence.
+[kernel reliability contract](https://aurora-softwares.github.io/Australis-Docs/components/kernel-reliability/) for fault ownership and report interpretation.
 The PIC is remapped and masked, so it cannot deliver device IRQs before a driver
 has registered ownership. The local APIC is enabled in either xAPIC or x2APIC
 mode; xAPIC receives an uncached identity mapping when its page is absent from
@@ -389,7 +389,7 @@ keyboard/storage and keyboard/mouse devices on both storage paths, including
 removal and reconnect.
 The complete Phase 5/6 regression set is `make test-phase5-6`; supported
 hardware and failure coverage are listed in
-[kernel completion criteria](https://aurora-softwares.github.io/Australis-Docs/components/kernel-gates/).
+[storage and driver stability matrix](https://aurora-softwares.github.io/Australis-Docs/components/storage-driver-stability/).
 
 ## AUEX `.exec` user programs
 
@@ -586,7 +586,7 @@ are available in `/System/Bin`. The Hex Viewer executable is installed at
 `/System/hexviewer.exec`. `stat /System` reports kind, size, object ID, and
 timestamps when the image contains them. The kernel continues to mount v1
 images. The versioned disk format and its recovery rules are in
-`docs/hyfs-v2.md`.
+[HyFS 2 format](https://aurora-softwares.github.io/Australis-Docs/reference/hyfs-v2/).
 
 Build and run the legacy format explicitly with `make iso-hyfs1`,
 `make run-hyfs1`, `make run-serial-hyfs1`, `make run-nvme-hyfs1`, or

@@ -75,7 +75,7 @@ The transactional `/data` profile passes host interruption tests and live
 AHCI/NVMe persistence and failure tests in QEMU. Native AUN1 file handles
 also pass read-only policy and reboot persistence checks on both controllers.
 Physical power-loss validation remains future hardware work. See
-`docs/storage-driver-stability.md`, `docs/hyfs-v2.md`, and
+[storage and driver stability](https://aurora-softwares.github.io/Australis-Docs/components/storage-driver-stability/), [HyFS 2 format](https://aurora-softwares.github.io/Australis-Docs/reference/hyfs-v2/), and
 `docs/system-calls-ipc.md`.
 
 ## Phase 6: Driver and hardware stability
@@ -96,7 +96,7 @@ AHCI, NVMe, simultaneous xHCI keyboard/storage and keyboard/mouse pairs, and
 the fixed framebuffer mode contract are exercised in QEMU on both storage
 paths. Dynamic display modes, drawing ownership, and the compositor belong to
 Phase 7. Physical hardware validation remains a separate release requirement.
-See `docs/storage-driver-stability.md`.
+See [storage and driver stability](https://aurora-softwares.github.io/Australis-Docs/components/storage-driver-stability/).
 
 ## Phase 7: Graphics and window management
 
