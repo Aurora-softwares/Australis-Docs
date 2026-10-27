@@ -1,0 +1,9 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="australis-gradient" x1="204" y1="124" x2="820" y2="740" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#38BDF8"/>
+      <stop offset="1" stop-color="#7C3AED"/>
+    </linearGradient>
+  </defs>
+  <path d="M512 124.225 582.597 361.659 820.031 432.247 582.597 502.835 512 740.269 441.421 502.835 203.987 432.247 441.421 361.659 512 124.225Z" fill="url(#australis-gradient)"/>
+</svg>
