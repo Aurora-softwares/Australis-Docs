@@ -12,12 +12,12 @@ does not determine which version is currently being developed.
 
 ## Where the project stands
 
-As of **27 October 2026** (project board and source tree checked):
+As of **28 October 2026** (project board and source tree checked):
 
 | Measure | Current position |
 | --- | --- |
 | **Current development version** | **`0.1.0` pre-release**: foundation implemented; release qualification is next |
-| `0.1.0` release gate | 🟡 5 project items are **Ready**, 1 **Testing**, 4 **Done**: restore CI, freeze baseline, run/archive QEMU matrix, document limits/platforms, unify version identity, verify/tag artifacts |
+| `0.1.0` release gate | 🟡 5 project items are **Ready**, 5 **Done**: freeze baseline, run/archive QEMU matrix, document limits/platforms, unify version identity, verify/tag artifacts |
 | Clean ISO build | 🟢 A fresh recursive `Development` checkout passes `make -j1 iso` and boots the PID 1 shell under QEMU AHCI; the working checkout also passes the NVMe shell boot |
 | Implemented GUI foundation | 🟢 Phases 1–11 of 16 marked complete in [GUI roadmap](https://aurora-softwares.github.io/Australis-Docs/development/gui-roadmap/) |
 | Next feature version | `0.2.0`: Phase 12 accelerated compositor; 4 project items **In Progress**, 4 **Ready**, 3 **Done** |
@@ -34,8 +34,11 @@ implemented work.
 
 The next `0.1.0` release task is the full foundation QEMU matrix with archived
 results. [CI restoration #162](https://github.com/Aurora-softwares/Australis-OS/issues/162)
-is in Testing after local AHCI and NVMe display and native-user checks passed;
-all GitHub CI shards must pass before it is complete.
+is complete: all eight shards passed for OS commit `0993117` in
+[CI run 40729525340, attempt 2](https://github.com/Aurora-softwares/Australis-OS/actions/runs/40729525340/attempts/2).
+The first attempt had an intermittent NVMe display cursor check failure; the
+repeat passed, and [release-matrix #69](https://github.com/Aurora-softwares/Australis-OS/issues/69)
+tracks further display repetition and diagnostic capture.
 [Documentation centralization #158](https://github.com/Aurora-softwares/Australis-OS/issues/158)
 is complete: the [documentation site](https://aurora-softwares.github.io/Australis-Docs/)
 is live, and both Development and Release source checkouts are free of project
@@ -94,12 +97,12 @@ release gate has progressed.
 
 The project board assigns these targets. They describe intended scope, not
 versions already released or promised dates. Statuses below are the board's
-snapshot on 27 October 2026.
+snapshot on 28 October 2026.
 
 | Target | Main scope | Board position |
 | --- | --- | --- |
 | Baseline | Historical boot, kernel, storage, userland, graphics foundation | 🟢 64 Done |
-| `0.1.0` | Qualify and package the existing foundation; unify version identity | 🟡 5 Ready, 1 Testing, 4 Done |
+| `0.1.0` | Qualify and package the existing foundation; unify version identity | 🟡 5 Ready, 5 Done |
 | `0.2.0` | Accelerated compositor and GPU-backed windows (GUI Phase 12) | 🟡 4 In Progress, 4 Ready, 3 Done |
 | `0.3.0` | Frame pacing, performance, and effects (GUI Phase 13) | 🟡 1 In Progress, 10 Backlog |
 | `0.4.0` | Native application platform and packaging | 🔴 8 Backlog |
