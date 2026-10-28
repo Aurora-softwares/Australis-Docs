@@ -108,7 +108,9 @@ The command and response layouts follow the
   VirtIO devices, exits the desktop, and samples the selected VirtIO scanout
   for the recovery console. The graphics model checks that console frames
   stay native across transient recovery and use GOP after native recovery
-  fails.
+  fails. All eight shards of
+  [Australis OS CI run 40780078283](https://github.com/Aurora-softwares/Australis-OS/actions/runs/40780078283)
+  pass with the new case.
 
 Device-originated display-change events are covered by the host model;
 the QEMU smoke test exercises explicit live mode requests. GOP does not
