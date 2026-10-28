@@ -30,6 +30,15 @@ Display buffer handles remain owned by the display lease and are revoked on
 process exit. The GPU resource belongs to the kernel backend, so an
 application or compositor exit cannot leave an application-owned GPU resource.
 
+Firmware and early kernel output use the captured GOP framebuffer until a
+native display is selected. At that handoff, the framebuffer console switches
+to a private RGB surface and presents through the selected `DisplayDevice`
+backend. The desktop and the recovery console therefore share the same native
+scanout; releasing the desktop lease does not resume writes to inactive GOP
+memory. A failed native presentation first attempts native recovery, then uses
+GOP only when recovery fails and the geometry matches. COM1 remains available
+if the display console cannot be prepared.
+
 The native display owner may call `Display.SetMode(width, height)` to request
 a bounded 2D mode. `Display.SetMode(0, 0)` polls the device display-change
 event and returns the current width in bits 0–15, height in bits 16–27, and
@@ -95,6 +104,11 @@ The command and response layouts follow the
   desktop and input path covered.
 - 🟢 `make test-display-fallback` checks serial recovery when the optional
   display service is absent on AHCI and NVMe.
+- 🟢 The `console` case in `make test-virtio-gpu` boots separate GOP and
+  VirtIO devices, exits the desktop, and samples the selected VirtIO scanout
+  for the recovery console. The graphics model checks that console frames
+  stay native across transient recovery and use GOP after native recovery
+  fails.
 
 Device-originated display-change events are covered by the host model;
 the QEMU smoke test exercises explicit live mode requests. GOP does not

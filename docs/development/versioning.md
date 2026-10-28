@@ -17,7 +17,7 @@ As of **28 October 2026** (project board and source tree checked):
 | Measure | Current position |
 | --- | --- |
 | **Current development version** | **`0.1.0` pre-release**: foundation implemented; release qualification is next |
-| `0.1.0` release gate | 🟡 5 project items are **Ready**, 5 **Done**: freeze baseline, run/archive QEMU matrix, document limits/platforms, unify version identity, verify/tag artifacts |
+| `0.1.0` release gate | 🟡 5 project items are **Ready**, 1 **Testing**, 5 **Done**: freeze baseline, run/archive QEMU matrix, document limits/platforms, unify version identity, verify/tag artifacts; selected display handoff is in Testing |
 | Clean ISO build | 🟢 A fresh recursive `Development` checkout passes `make -j1 iso` and boots the PID 1 shell under QEMU AHCI; the working checkout also passes the NVMe shell boot |
 | Implemented GUI foundation | 🟢 Phases 1–11 of 16 marked complete in [GUI roadmap](https://aurora-softwares.github.io/Australis-Docs/development/gui-roadmap/) |
 | Next feature version | `0.2.0`: Phase 12 accelerated compositor; 4 project items **In Progress**, 4 **Ready**, 3 **Done** |
@@ -54,6 +54,14 @@ The live retained compositor now follows window move, resize, maximize,
 restore, minimize, and close changes without dropping to the older software
 fallback in local AHCI and NVMe QEMU display tests. Hardware-accelerated window
 composition remains a Phase 12 gate.
+
+The selected native display backend now also presents the recovery console
+after the desktop releases its display lease. A separate-device VirtIO-GPU
+QEMU check confirms that the console appears on the native scanout instead of
+the inactive GOP framebuffer. GOP remains the early-boot path and the fallback
+when native initialization or recovery fails; the GOP-only AHCI display test,
+native mode-change test, and graphics recovery model pass locally. See
+[display handoff #163](https://github.com/Aurora-softwares/Australis-OS/issues/163).
 
 The OS image builds the `src/drivers/usb` AUDR v2 module into `/usb.driver`.
 Device metadata selects its xHCI capability-length probe from the system
@@ -102,7 +110,7 @@ snapshot on 28 October 2026.
 | Target | Main scope | Board position |
 | --- | --- | --- |
 | Baseline | Historical boot, kernel, storage, userland, graphics foundation | 🟢 64 Done |
-| `0.1.0` | Qualify and package the existing foundation; unify version identity | 🟡 5 Ready, 5 Done |
+| `0.1.0` | Qualify and package the existing foundation; unify version identity | 🟡 5 Ready, 1 Testing, 5 Done |
 | `0.2.0` | Accelerated compositor and GPU-backed windows (GUI Phase 12) | 🟡 4 In Progress, 4 Ready, 3 Done |
 | `0.3.0` | Frame pacing, performance, and effects (GUI Phase 13) | 🟡 1 In Progress, 10 Backlog |
 | `0.4.0` | Native application platform and packaging | 🔴 8 Backlog |
