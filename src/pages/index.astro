@@ -1,0 +1,102 @@
+---
+import '../styles/site.css';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const link = (path) => `${base}${path}`;
+const screenshots = [
+  { name: 'Desktop', file: 'desktop.png', note: 'A look at the graphical environment.' },
+  { name: 'Shell', file: 'terminal.png', note: 'Getting to know the Australis command shell.' },
+  { name: 'Boot process', file: 'boot.png', note: 'Behind the scenes, from startup to system.' },
+];
+const fs = await import('node:fs');
+const path = await import('node:path');
+const realShots = screenshots.map((shot) => ({
+  ...shot,
+  available: fs.existsSync(path.join(process.cwd(), 'public', 'screenshots', shot.file)),
+}));
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#fff4e5" />
+    <meta name="description" content="Meet Australis OS, a from-scratch experimental operating system by Aurora Softwares. Explore its story and discover the documentation." />
+    <link rel="icon" href={link('/favicon.svg')} type="image/svg+xml" />
+    <title>Australis OS — A new world to explore</title>
+  </head>
+  <body>
+    <div class="site-wrap">
+      <header class="topbar shell">
+        <a class="brand" href={link('/')} aria-label="Australis OS home">
+          <span class="brand-icon" aria-hidden="true">✦</span>
+          <span>Australis <span class="muted">OS</span></span>
+        </a>
+        <nav class="nav" aria-label="Main navigation">
+          <a href="#discover">Discover</a>
+          <a href="#gallery">Screenshots</a>
+          <a href={link('/docs/')}>Documentation</a>
+          <a class="nav-github" href="https://github.com/Aurora-softwares/Australis-OS">GitHub ↗</a>
+        </nav>
+      </header>
+
+      <main>
+        <section class="hero shell" aria-labelledby="hero-title">
+          <div class="hero-glow" aria-hidden="true"></div>
+          <div class="hero-copy">
+            <p class="eyebrow"><span class="eyebrow-dot"></span> MADE WITH CURIOSITY · AURORA SOFTWARES</p>
+            <h1 id="hero-title">A little spark.<br /><em>A whole new world.</em></h1>
+            <p class="hero-description">Say hello to <strong>Australis</strong> — an operating system being imagined and built from the ground up. Follow the journey, peek inside, or roll up your sleeves and explore.</p>
+            <div class="hero-actions">
+              <a class="button primary" href={link('/docs/getting-started/first-steps/')}>Get started <span aria-hidden="true">↗</span></a>
+              <a class="button secondary" href={link('/docs/')}>Read the docs <span aria-hidden="true">→</span></a>
+            </div>
+            <p class="hero-note"><span aria-hidden="true">✳</span> An experimental project, growing one step at a time.</p>
+          </div>
+          <div class="hero-art" aria-label="Decorative pastel abstract illustration of a desktop environment">
+            <span class="shape shape-peach"></span><span class="shape shape-cream"></span><span class="shape shape-lilac"></span>
+            <div class="art-orbit orbit-one"></div><div class="art-orbit orbit-two"></div>
+            <div class="desktop-card">
+              <div class="window-top"><span class="window-dot"></span><span class="window-dot"></span><span class="window-dot"></span><span class="window-title">Hello from Australis ✦</span></div>
+              <div class="window-inner"><div class="window-sun">✦</div><div class="window-heading">Your adventure starts here.</div><div class="window-caption">Explore. Discover. Create.</div><div class="window-cta">Made with ♥ and a little curiosity</div></div>
+            </div>
+            <span class="sparkle sparkle-a">✳</span><span class="sparkle sparkle-b">✧</span><span class="sparkle sparkle-c">✴</span>
+            <span class="art-label">A LITTLE WINDOW INTO THE FUTURE</span>
+          </div>
+        </section>
+
+        <section id="discover" class="discover section-block shell" aria-labelledby="discover-title">
+          <div class="section-intro"><p class="kicker">NICE TO MEET YOU</p><h2 id="discover-title">An OS with a big imagination.</h2><p>Underneath the pretty pixels is a project built to learn, create and discover how operating systems really work.</p></div>
+          <div class="features">
+            <a class="feature feature-lemon" href={link('/docs/architecture/overview/')}><span class="feature-symbol">✦</span><h3>Built from the beginning</h3><p>From bootloader to kernel, Australis is being made layer by layer.</p><span class="feature-link">Explore the architecture →</span></a>
+            <a class="feature feature-peach" href={link('/docs/getting-started/explore/')}><span class="feature-symbol">⌘</span><h3>Made to explore</h3><p>Open a virtual machine, explore the shell, and see what's possible today.</p><span class="feature-link">Take a little tour →</span></a>
+            <a class="feature feature-lilac" href={link('/docs/development/os-roadmap/')}><span class="feature-symbol">✳</span><h3>Growing in the open</h3><p>Follow the roadmap, the experiments, and the steps still to come.</p><span class="feature-link">See what's next →</span></a>
+          </div>
+        </section>
+
+        <section id="gallery" class="gallery-band section-block" aria-labelledby="gallery-title">
+          <div class="shell">
+            <div class="section-heading"><div><p class="kicker">A PEEK INSIDE</p><h2 id="gallery-title">See Australis take shape.</h2><p>From the first boot to the next new feature — there is always something to discover.</p></div><a class="text-link" href={link('/docs/getting-started/explore/')}>Explore what's working ↗</a></div>
+            <div class="gallery-grid">
+              {realShots.map((shot, index) => (
+                <article class="gallery-card">
+                  <div class:list={['gallery-visual', `visual-${index}`]}>
+                    {shot.available ? <img src={link(`/screenshots/${shot.file}`)} alt={`Australis OS ${shot.name.toLowerCase()} screenshot`} loading="lazy" /> : <div class="illustrative-preview" aria-label="Decorative preview, not a real operating system screenshot">
+                      <span class="preview-label">ILLUSTRATION · NOT A SCREENSHOT</span>
+                      {index === 0 ? <div class="preview-desktop"><div class="preview-navbar">✦ Australis <span>◷　◉</span></div><div class="preview-window"><span>◉ ◉ ◉</span><strong>Welcome to Australis</strong><small>Little things. Big ideas.</small></div></div> : index === 1 ? <div class="preview-terminal"><div class="terminal-controls">● ● ●</div><code>Australis OS<br />australis&gt; help<br /><span>explore · learn · build</span><br />australis&gt; ▋</code></div> : <div class="preview-boot"><div class="boot-star">✦</div><div class="boot-line"></div><div class="boot-text">A NEW WORLD IS LOADING</div></div>}
+                    </div>}
+                  </div>
+                  <div class="gallery-caption"><div><h3>{shot.name}</h3><p>{shot.note}</p></div><span class="gallery-badge">{shot.available ? 'Screenshot' : 'Illustration'}</span></div>
+                </article>
+              ))}
+            </div>
+            <p class="gallery-disclaimer">Real screenshots will appear here when verified QEMU captures are added to the repository’s <code>public/screenshots</code> directory.</p>
+          </div>
+        </section>
+
+        <section class="docs-cta section-block shell" aria-labelledby="docs-title"><div class="docs-sun" aria-hidden="true">☀</div><div><p class="kicker">WONDERING WHERE TO BEGIN?</p><h2 id="docs-title">There's a guide for that.</h2><p>Whether you're curious about your first boot or ready to dive into the kernel, we've made a place to start.</p><div class="hero-actions"><a class="button primary" href={link('/docs/')}>Browse documentation →</a><a class="button secondary" href={link('/docs/getting-started/faq/')}>Common questions</a></div></div></section>
+      </main>
+
+      <footer class="footer shell"><a class="brand" href={link('/')}><span class="brand-icon">✦</span> Australis OS</a><p>Made with care by <a href="https://github.com/Aurora-softwares">Aurora Softwares</a> ✳</p><div><a href={link('/docs/')}>Documentation</a><a href="https://github.com/Aurora-softwares/Australis-OS">Source code ↗</a></div></footer>
+    </div>
+  </body>
+</html>

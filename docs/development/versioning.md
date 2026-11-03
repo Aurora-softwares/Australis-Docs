@@ -12,12 +12,12 @@ does not determine which version is currently being developed.
 
 ## Where the project stands
 
-As of **27 October 2026** (project board and source tree checked):
+As of **28 October 2026** (project board and source tree checked):
 
 | Measure | Current position |
 | --- | --- |
 | **Current development version** | **`0.1.0` pre-release**: foundation implemented; release qualification is next |
-| `0.1.0` release gate | 🟡 5 project items are **Ready**, 4 **Done**: freeze baseline, run/archive QEMU matrix, document limits/platforms, unify version identity, verify/tag artifacts |
+| `0.1.0` release gate | 🟡 5 project items are **Ready**, 6 **Done**: freeze baseline, run/archive QEMU matrix, document limits/platforms, unify version identity, verify/tag artifacts |
 | Clean ISO build | 🟢 A fresh recursive `Development` checkout passes `make -j1 iso` and boots the PID 1 shell under QEMU AHCI; the working checkout also passes the NVMe shell boot |
 | Implemented GUI foundation | 🟢 Phases 1–11 of 16 marked complete in [GUI roadmap](https://aurora-softwares.github.io/Australis-Docs/development/gui-roadmap/) |
 | Next feature version | `0.2.0`: Phase 12 accelerated compositor; 4 project items **In Progress**, 4 **Ready**, 3 **Done** |
@@ -33,17 +33,47 @@ tracks work outside graphics. A board item marked Ready is planned work, not
 implemented work.
 
 The next `0.1.0` release task is the full foundation QEMU matrix with archived
-results. [Documentation centralization #158](https://github.com/Aurora-softwares/Australis-OS/issues/158) is complete: the [documentation site](https://aurora-softwares.github.io/Australis-Docs/) is live, and both Development and Release source checkouts are free of project documentation Markdown. The remaining gates include supported-platform and limitation
-documentation, version-identity wiring, a frozen baseline, and checksum/tag
-verification of candidate artifacts. The clean ISO and PID 1 boot checks do
-not by themselves qualify a release.
+results. [CI restoration #162](https://github.com/Aurora-softwares/Australis-OS/issues/162)
+is complete: all eight shards passed for OS commit `0993117` in
+[CI run 40729525340, attempt 2](https://github.com/Aurora-softwares/Australis-OS/actions/runs/40729525340/attempts/2).
+The first attempt had an intermittent NVMe display cursor check failure; the
+repeat passed, and [release-matrix #69](https://github.com/Aurora-softwares/Australis-OS/issues/69)
+tracks further display repetition and diagnostic capture.
+[Documentation centralization #158](https://github.com/Aurora-softwares/Australis-OS/issues/158)
+is complete: the [documentation site](https://aurora-softwares.github.io/Australis-Docs/)
+is live, and both Development and Release source checkouts are free of project
+documentation Markdown. The remaining gates include supported-platform and
+limitation documentation, version-identity wiring, a frozen baseline, and
+checksum/tag verification of candidate artifacts. The clean ISO and PID 1
+boot checks do not by themselves qualify a release.
 
 Phase 12's VirGL render-target probe now verifies source-alpha blending in a
 live boot. Window textures are still composed into a software frame, so the
 accelerated compositor item remains In Progress and the `0.2.0` gate is open.
-The live retained compositor now follows window move and resize changes without
-dropping to the older software fallback; maximized-window synchronization is
-still disabled pending a kernel-panic investigation.
+The live retained compositor now follows window move, resize, maximize,
+restore, minimize, and close changes without dropping to the older software
+fallback in local AHCI and NVMe QEMU display tests. Hardware-accelerated window
+composition remains a Phase 12 gate.
+
+The selected native display backend now also presents the recovery console
+after the desktop releases its display lease. A separate-device VirtIO-GPU
+QEMU check confirms that the console appears on the native scanout instead of
+the inactive GOP framebuffer. GOP remains the early-boot path and the fallback
+when native initialization or recovery fails; the GOP-only AHCI display test,
+native mode-change test, and graphics recovery model pass locally. See
+[display handoff #163](https://github.com/Aurora-softwares/Australis-OS/issues/163).
+All eight shards of [CI run 40780078283](https://github.com/Aurora-softwares/Australis-OS/actions/runs/40780078283)
+passed for the pinned kernel and OS changes.
+
+The OS image builds the `src/drivers/usb` AUDR v2 module into `/usb.driver`.
+Device metadata selects its xHCI capability-length probe from the system
+filesystem; a matching module's result is used during controller setup.
+QEMU checks selected, rejected, mismatched, corrupt, and absent modules and
+retains the built-in register read as fallback.
+[Device binding and lifecycle #156](https://github.com/Aurora-softwares/Australis-OS/issues/156)
+remains In Progress: the built-in xHCI driver still owns ongoing USB I/O,
+AUDR has no DMA/interrupt/callback ownership API, and AHCI/NVMe must remain
+available before the filesystem can load modules.
 
 VirtIO-GPU 2D drag response improved from about **1.9 to 3.2 visible updates
 per second** in the same 1280×800 QEMU TCG screenshot probe after reducing
@@ -77,19 +107,19 @@ release gate has progressed.
 
 The project board assigns these targets. They describe intended scope, not
 versions already released or promised dates. Statuses below are the board's
-snapshot on 27 October 2026.
+snapshot on 28 October 2026.
 
 | Target | Main scope | Board position |
 | --- | --- | --- |
 | Baseline | Historical boot, kernel, storage, userland, graphics foundation | 🟢 64 Done |
-| `0.1.0` | Qualify and package the existing foundation; unify version identity | 🟡 5 Ready, 4 Done |
+| `0.1.0` | Qualify and package the existing foundation; unify version identity | 🟡 5 Ready, 6 Done |
 | `0.2.0` | Accelerated compositor and GPU-backed windows (GUI Phase 12) | 🟡 4 In Progress, 4 Ready, 3 Done |
 | `0.3.0` | Frame pacing, performance, and effects (GUI Phase 13) | 🟡 1 In Progress, 10 Backlog |
 | `0.4.0` | Native application platform and packaging | 🔴 8 Backlog |
 | `0.5.0` | Usable desktop and graphical applications | 🔴 9 Backlog |
 | `0.6.0` | Sessions, users, permissions, services, and management | 🔴 8 Backlog |
 | `0.7.0` | Networking and audio support | 🔴 8 Backlog |
-| `0.8.0` | Security hardening, installer, signed packages, recovery | 🔴 7 Backlog |
+| `0.8.0` | Security hardening, installer, signed packages, recovery, and driver binding | 🟡 1 In Progress, 7 Backlog |
 | `0.9.0` | Beta qualification, soak/fault tests, physical hardware | 🔴 9 Backlog |
 | `1.0.0` | Stable release gate: end-to-end apps, graphics, files, recovery, support evidence | 🔴 7 Backlog |
 
