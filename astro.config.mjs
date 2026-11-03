@@ -15,8 +15,9 @@ export default defineConfig({
       ],
       customCss: ['./src/styles/docs.css'],
       sidebar: [
+        { label: 'Welcome', link: '/' },
+        { label: 'Documentation hub', slug: 'docs' },
         { label: 'Start here', items: [
-          { slug: 'docs' },
           { slug: 'docs/getting-started/first-steps' },
           { slug: 'docs/getting-started/explore' },
           { slug: 'docs/getting-started/faq' },
