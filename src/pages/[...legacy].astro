@@ -1,0 +1,39 @@
+---
+import { readdir } from 'node:fs/promises';
+import { resolve, join, relative, extname } from 'node:path';
+
+// Keep public Docusaurus URLs working now that technical docs live in /docs/.
+export async function getStaticPaths() {
+  const root = resolve(process.cwd(), 'docs');
+  async function* markdownFiles(dir) {
+    for (const item of await readdir(dir, { withFileTypes: true })) {
+      const path = join(dir, item.name);
+      if (item.isDirectory()) yield* markdownFiles(path);
+      else if (item.isFile() && ['.md', '.mdx'].includes(extname(path))) yield path;
+    }
+  }
+  const paths = [];
+  for await (const file of markdownFiles(root)) {
+    const relativePath = relative(root, file);
+    if (relativePath === 'README.md' || relativePath === 'index.md' || relativePath.startsWith('getting-started/')) continue;
+    const slug = relativePath.replace(/\.mdx?$/, '');
+    paths.push({ params: { legacy: slug }, props: { destination: '/Australis-Docs/docs/' + slug + '/' } });
+  }
+  return paths;
+}
+const { destination } = Astro.props;
+const refresh = '0; url=' + destination;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="refresh" content={refresh} />
+    <meta name="robots" content="noindex" />
+    <link rel="canonical" href={'https://aurora-softwares.github.io' + destination} />
+    <title>Documentation moved — Australis OS</title>
+  </head>
+  <body>
+    <p>This guide has moved. <a href={destination}>Continue to the updated documentation</a>.</p>
+  </body>
+</html>
