@@ -1,0 +1,48 @@
+---
+title: Australis OS documentation
+description: Get started with Australis OS and explore the components behind it.
+template: splash
+hero:
+  title: Your Australis handbook.
+  tagline: Friendly introductions, build guides, and the technical details behind the OS.
+  actions:
+    - text: Try your first boot
+      link: /Australis-Docs/docs/getting-started/first-steps/
+      icon: right-arrow
+    - text: Back to the welcome page
+      link: /Australis-Docs/
+      variant: minimal
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+Welcome! Australis is an **experimental operating system** made from the ground up with Hydrogen. Explore it in QEMU, learn how it works, or follow its development. You don't need to be an OS expert to begin.
+
+## Start here
+
+<CardGrid>
+  <Card title="Getting started" icon="rocket">
+    [Try your first boot](/Australis-Docs/docs/getting-started/first-steps/), set up the [requirements](/Australis-Docs/docs/building/requirements/), and [build the OS](/Australis-Docs/docs/building/building/).
+  </Card>
+  <Card title="Explore Australis" icon="open-book">
+    Get comfortable with the [shell](/Australis-Docs/docs/getting-started/explore/) and learn what the system can currently do.
+  </Card>
+  <Card title="How it works" icon="setting">
+    Discover the [bootloader and kernel](/Australis-Docs/docs/architecture/overview/), [system layout](/Australis-Docs/docs/architecture/system-layout/) and [storage](/Australis-Docs/docs/reference/hyfs-v2/).
+  </Card>
+  <Card title="Applications" icon="document">
+    Learn about [Australis applications](/Australis-Docs/docs/applications/platform/) and the Hydrogen language used to build them.
+  </Card>
+  <Card title="How-to guides" icon="document">
+    Find [building instructions](/Australis-Docs/docs/building/building/), [debugging advice](/Australis-Docs/docs/internals/debugging/), and answers to [common questions](/Australis-Docs/docs/getting-started/faq/).
+  </Card>
+  <Card title="What's next?" icon="code-branch">
+    Explore the [roadmap](/Australis-Docs/docs/development/os-roadmap/) and [active development plan](/Australis-Docs/docs/development/active-plan/).
+  </Card>
+</CardGrid>
+
+## A project in development
+
+Australis is **not a finished desktop operating system**. Virtual-machine testing is recommended, and physical-machine support and release readiness are still under development. The documentation includes detailed engineering notes that may describe historical work. For current status, check the [Development branch](https://github.com/Aurora-softwares/Australis-OS/tree/Development).
+
+The operating system and its documentation are part of [Aurora Softwares](https://github.com/Aurora-softwares). Want to explore the language behind the project? Visit [Hydrogen Docs](https://hylang.co.uk/).

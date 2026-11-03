@@ -1,4 +1,84 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Nunito:wght@500;600;700;800;900&display=swap');
-:root{--sl-font:'DM Sans',system-ui,sans-serif;--sl-font-system:'DM Sans',system-ui,sans-serif;--sl-color-accent-low:#fff0d4;--sl-color-accent:#a95e24;--sl-color-accent-high:#64340f;--sl-color-text:#4c3b30;--sl-color-text-accent:#a95e24;--sl-color-bg:#fffbf5;--sl-color-bg-nav:#fff8ed;--sl-color-bg-sidebar:#fffbf5;--sl-color-bg-inline-code:#fff0d7;--sl-color-hairline:#ecdcc9;--sl-color-hairline-light:#f5e9db;--sl-color-gray-1:#513b30;--sl-color-gray-2:#6a5141;--sl-color-gray-3:#8b6e59;--sl-color-gray-4:#ae8e76;--sl-color-gray-5:#d4baa5;--sl-color-gray-6:#f6ece0;--sl-color-gray-7:#fff8ef;--sl-color-white:#fffdf9}
-:root[data-theme='dark']{--sl-color-accent-low:#57341b;--sl-color-accent:#f7b46e;--sl-color-accent-high:#ffdfab;--sl-color-text:#f8e8d9;--sl-color-text-accent:#ffbc80;--sl-color-bg:#241d1a;--sl-color-bg-nav:#2e2420;--sl-color-bg-sidebar:#241d1a;--sl-color-bg-inline-code:#3c2e25;--sl-color-hairline:#554237;--sl-color-hairline-light:#403129;--sl-color-gray-1:#fff0e4;--sl-color-gray-2:#f0ddce;--sl-color-gray-3:#dbc1ab;--sl-color-gray-4:#b79984;--sl-color-gray-5:#78604f;--sl-color-gray-6:#3e302a;--sl-color-gray-7:#2c2420;--sl-color-white:#241d1a}
-h1,h2,h3,h4{font-family:Nunito,system-ui,sans-serif;letter-spacing:-.025em}main a:not(.sl-link-button){text-underline-offset:3px}code{border-radius:5px}.card{border-radius:16px!important}.sl-markdown-content blockquote{border-inline-start-color:#dca15f;border-radius:6px;background:color-mix(in srgb,var(--sl-color-accent-low) 42%,transparent);padding:1rem}.sl-markdown-content table{display:block;overflow-x:auto}.sl-markdown-content img{border-radius:14px;border:1px solid var(--sl-color-hairline)}::selection{background:#f6c78c66}
+/* Australis Starlight theme aligned with Hydrogen documentation geometry.
+   The colour tokens deliberately remain Australis orange, cream and amber. */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+:root {
+  --sl-font: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --sl-font-system: Inter, ui-sans-serif, system-ui, sans-serif;
+  --sl-color-accent-low: #57341b;
+  --sl-color-accent: #ffc17e;
+  --sl-color-accent-high: #ffdfb2;
+  --sl-color-bg: #241d1a;
+  --sl-color-bg-nav: rgba(46,36,32,.92);
+  --sl-color-bg-sidebar: #2d231e;
+  --sl-color-text: #f8e8d9;
+  --sl-color-text-muted: #d7c2b1;
+  --sl-color-text-accent: #ffc17e;
+  --sl-color-bg-inline-code: #3c2e25;
+  --sl-color-hairline: #554237;
+  --sl-color-hairline-light: #403129;
+  --sl-color-gray-1: #fff0e4;
+  --sl-color-gray-2: #f0ddce;
+  --sl-color-gray-3: #dbc1ab;
+  --sl-color-gray-4: #b79984;
+  --sl-color-gray-5: #78604f;
+  --sl-color-gray-6: #3e302a;
+  --sl-color-gray-7: #2c2420;
+  --sl-color-white: #241d1a;
+}
+:root[data-theme='light'] {
+  --sl-color-accent-low: #fff0d4;
+  --sl-color-accent: #a95e24;
+  --sl-color-accent-high: #64340f;
+  --sl-color-bg: #fffaf3;
+  --sl-color-bg-nav: rgba(255,250,243,.94);
+  --sl-color-bg-sidebar: #fff7ed;
+  --sl-color-text: #4c3b30;
+  --sl-color-text-muted: #7c6a5b;
+  --sl-color-text-accent: #a95e24;
+  --sl-color-bg-inline-code: #fff0d7;
+  --sl-color-hairline: #ecdcc9;
+  --sl-color-hairline-light: #f5e9db;
+  --sl-color-gray-1: #513b30;
+  --sl-color-gray-2: #6a5141;
+  --sl-color-gray-3: #8b6e59;
+  --sl-color-gray-4: #ae8e76;
+  --sl-color-gray-5: #d4baa5;
+  --sl-color-gray-6: #f6ece0;
+  --sl-color-gray-7: #fff8ef;
+  --sl-color-white: #fffdf9;
+}
+:root[data-theme='light'] body {
+  background:
+    radial-gradient(ellipse 55% 27% at 9% 0%, rgba(255,218,176,.38), transparent 76%),
+    radial-gradient(ellipse 45% 30% at 96% 0%, rgba(255,232,185,.46), transparent 75%),
+    #fffaf3;
+}
+body { font-family: Inter, ui-sans-serif, system-ui, sans-serif; }
+.header {
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-bottom: 1px solid rgba(160,111,67,.14);
+}
+:root[data-theme='light'] .sidebar-pane {
+  border-inline-end: 1px solid #f1e2d3;
+}
+.sl-markdown-content a { text-underline-offset: 3px; }
+.sl-markdown-content :is(.card, .link-card) { border-radius: 18px; }
+.hero { padding-block: clamp(3.5rem,7vw,6rem) clamp(2.7rem,5vw,4rem); }
+.hero h1 { letter-spacing: -.05em; }
+:root[data-theme='light'] .hero h1 {
+  background: linear-gradient(105deg,#e2a25a,#b97339 61%,#d1a160);
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+h1,h2,h3,h4 { font-family: Inter, ui-sans-serif, system-ui, sans-serif; letter-spacing: -.035em; }
+.sl-markdown-content :not(pre)>code { border-radius: 6px; }
+.sl-markdown-content blockquote { border-inline-start-color: #dca15f; border-radius: 0 10px 10px 0; background: color-mix(in srgb,var(--sl-color-accent-low) 42%,transparent); padding: 1rem; }
+.sl-markdown-content table { display: block; overflow-x: auto; }
+.sl-markdown-content img { border-radius: 14px; border: 1px solid var(--sl-color-hairline); }
+:focus-visible { outline-color: #aa682e; outline-offset: 3px; }
+::selection { background: #f6c78c66; }
+@media(prefers-reduced-transparency:reduce){
+  .header{backdrop-filter:none;-webkit-backdrop-filter:none}
+}
