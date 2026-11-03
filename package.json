@@ -1,44 +1,27 @@
 {
   "name": "australis-docs",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "private": true,
-  "description": "Docusaurus documentation site for Australis OS.",
+  "type": "module",
+  "description": "Australis OS website and Starlight documentation",
   "scripts": {
-    "start": "docusaurus start",
-    "build": "docusaurus build",
-    "serve": "docusaurus serve",
-    "clear": "docusaurus clear"
+    "predev": "node scripts/prepare-docs.mjs",
+    "dev": "astro dev",
+    "prebuild": "node scripts/prepare-docs.mjs",
+    "build": "astro build",
+    "precheck": "node scripts/prepare-docs.mjs",
+    "check": "astro check",
+    "preview": "astro preview"
   },
   "dependencies": {
-    "@docusaurus/core": "latest",
-    "@docusaurus/preset-classic": "latest",
-    "@mdx-js/react": "^3.0.0",
-    "clsx": "^2.0.0",
-    "prism-react-renderer": "^2.3.0",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "astro": "^7.4.4",
+    "@astrojs/starlight": "^0.42.8"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "latest",
-    "@docusaurus/tsconfig": "latest",
-    "@docusaurus/types": "latest"
-  },
-  "overrides": {
-    "webpack": "5.99.9"
+    "@astrojs/check": "^0.9.5",
+    "typescript": "^5.9.3"
   },
   "engines": {
-    "node": ">=20.0"
-  },
-  "browserslist": {
-    "production": [
-      ">0.5%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 3 chrome version",
-      "last 3 firefox version",
-      "last 5 safari version"
-    ]
+    "node": ">=22.12.0"
   }
 }
