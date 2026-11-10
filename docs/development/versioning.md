@@ -21,7 +21,7 @@ The Phase 12 board counts were refreshed on **10 November 2026**:
 | `0.1.0` release gate | 🟡 5 project items are **Ready**, 6 **Done**: freeze baseline, run/archive QEMU matrix, document limits/platforms, unify version identity, verify/tag artifacts |
 | Clean ISO build | 🟢 A fresh recursive `Development` checkout passes `make -j1 iso` and boots the PID 1 shell under QEMU AHCI; the working checkout also passes the NVMe shell boot |
 | Implemented GUI foundation | 🟢 Phases 1–11 of 16 marked complete in [GUI roadmap](https://aurora-softwares.github.io/Australis-Docs/development/gui-roadmap/) |
-| Next feature version | `0.2.0`: Phase 12 accelerated compositor; 3 project items **In Progress**, 2 **Ready**, 6 **Done** (board checked 10 November 2026) |
+| Next feature version | `0.2.0`: Phase 12 accelerated compositor; 3 project items **In Progress**, 2 **Ready**, 6 **Done** including 3 archived completed items (board checked 10 November 2026) |
 | Later GUI phases | 🟡 Phase 13 has one graphics performance item In Progress; Phases 14–16 remain in the GUI roadmap alongside application, system, connectivity, security, and release work |
 | Current release claim | `0.1.0` is being prepared; its release gate has not been completed |
 
@@ -57,8 +57,8 @@ bar. Damage-only GPU recomposition, transformations, benchmarking, and full
 parity across transformed scenes remain open, so the `0.2.0` gate is open.
 The live retained compositor now follows window move, resize, maximize,
 restore, minimize, and close changes without dropping to the older software
-fallback in local AHCI and NVMe QEMU display tests. Hardware-accelerated window
-composition remains a Phase 12 gate.
+fallback in local AHCI and NVMe QEMU display tests. The remaining accelerated
+composition tasks above still gate Phase 12.
 
 The selected native display backend now also presents the recovery console
 after the desktop releases its display lease. A separate-device VirtIO-GPU
@@ -118,7 +118,7 @@ snapshot on 28 October 2026.
 | --- | --- | --- |
 | Baseline | Historical boot, kernel, storage, userland, graphics foundation | 🟢 64 Done |
 | `0.1.0` | Qualify and package the existing foundation; unify version identity | 🟡 5 Ready, 6 Done |
-| `0.2.0` | Accelerated compositor and GPU-backed windows (GUI Phase 12) | 🟡 3 In Progress, 2 Ready, 6 Done |
+| `0.2.0` | Accelerated compositor and GPU-backed windows (GUI Phase 12) | 🟡 3 In Progress, 2 Ready, 6 Done including 3 archived |
 | `0.3.0` | Frame pacing, performance, and effects (GUI Phase 13) | 🟡 1 In Progress, 10 Backlog |
 | `0.4.0` | Native application platform and packaging | 🔴 8 Backlog |
 | `0.5.0` | Usable desktop and graphical applications | 🔴 9 Backlog |
