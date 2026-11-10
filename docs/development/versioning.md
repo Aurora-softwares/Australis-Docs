@@ -12,7 +12,8 @@ does not determine which version is currently being developed.
 
 ## Where the project stands
 
-As of **28 October 2026** (project board and source tree checked):
+The foundation and release position below was checked on **28 October 2026**.
+The Phase 12 board counts were refreshed on **10 November 2026**:
 
 | Measure | Current position |
 | --- | --- |
@@ -20,7 +21,7 @@ As of **28 October 2026** (project board and source tree checked):
 | `0.1.0` release gate | 🟡 5 project items are **Ready**, 6 **Done**: freeze baseline, run/archive QEMU matrix, document limits/platforms, unify version identity, verify/tag artifacts |
 | Clean ISO build | 🟢 A fresh recursive `Development` checkout passes `make -j1 iso` and boots the PID 1 shell under QEMU AHCI; the working checkout also passes the NVMe shell boot |
 | Implemented GUI foundation | 🟢 Phases 1–11 of 16 marked complete in [GUI roadmap](https://aurora-softwares.github.io/Australis-Docs/development/gui-roadmap/) |
-| Next feature version | `0.2.0`: Phase 12 accelerated compositor; 4 project items **In Progress**, 4 **Ready**, 3 **Done** |
+| Next feature version | `0.2.0`: Phase 12 accelerated compositor; 3 project items **In Progress**, 2 **Ready**, 6 **Done** (board checked 10 November 2026) |
 | Later GUI phases | 🟡 Phase 13 has one graphics performance item In Progress; Phases 14–16 remain in the GUI roadmap alongside application, system, connectivity, security, and release work |
 | Current release claim | `0.1.0` is being prepared; its release gate has not been completed |
 
@@ -47,9 +48,13 @@ limitation documentation, version-identity wiring, a frozen baseline, and
 checksum/tag verification of candidate artifacts. The clean ISO and PID 1
 boot checks do not by themselves qualify a release.
 
-Phase 12's VirGL render-target probe now verifies source-alpha blending in a
-live boot. Window textures are still composed into a software frame, so the
-accelerated compositor item remains In Progress and the `0.2.0` gate is open.
+Phase 12's VirGL render-target probe verifies source-alpha blending, and
+the normal 512 MiB QEMU desktop composes two independent windows with GPU
+commands. Live checks cover move, resize, stacking, maximize, restore, and
+display mode changes. A 256 MiB guest keeps the retained CPU compositor.
+The visual check compares the initial GPU and software scene below the top
+bar. Damage-only GPU recomposition, transformations, benchmarking, and full
+parity across transformed scenes remain open, so the `0.2.0` gate is open.
 The live retained compositor now follows window move, resize, maximize,
 restore, minimize, and close changes without dropping to the older software
 fallback in local AHCI and NVMe QEMU display tests. Hardware-accelerated window
@@ -113,7 +118,7 @@ snapshot on 28 October 2026.
 | --- | --- | --- |
 | Baseline | Historical boot, kernel, storage, userland, graphics foundation | 🟢 64 Done |
 | `0.1.0` | Qualify and package the existing foundation; unify version identity | 🟡 5 Ready, 6 Done |
-| `0.2.0` | Accelerated compositor and GPU-backed windows (GUI Phase 12) | 🟡 4 In Progress, 4 Ready, 3 Done |
+| `0.2.0` | Accelerated compositor and GPU-backed windows (GUI Phase 12) | 🟡 3 In Progress, 2 Ready, 6 Done |
 | `0.3.0` | Frame pacing, performance, and effects (GUI Phase 13) | 🟡 1 In Progress, 10 Backlog |
 | `0.4.0` | Native application platform and packaging | 🔴 8 Backlog |
 | `0.5.0` | Usable desktop and graphical applications | 🔴 9 Backlog |
