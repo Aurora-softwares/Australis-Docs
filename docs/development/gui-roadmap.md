@@ -254,9 +254,13 @@ The implemented foundation and remaining work are described in
   content inset, and maximized geometry; the GPU pointer stays within the
   screen bounds. Damage-only GPU recomposition remains tracked separately below
 - 🔴 Implement GPU-accelerated shapes and transformations
-- 🟡 Introduce efficient CPU-to-GPU surface synchronization: changed cells
-  upload bounded regions and the live desktop presents a GPU-composed frame;
-  broader synchronization and resource reuse remain open
+- 🟢 Introduce efficient CPU-to-GPU surface synchronization: changed cells
+  upload bounded regions; fenced GPU writes and copies complete before the
+  authoritative CPU shadow changes. Explicit GPU readback leaves that shadow
+  intact for software fallback and resource recovery. A failed GPU scanout
+  handoff attempts 2D restoration and blocks another GPU frame until it
+  succeeds. The live owned-window probe checks readback, copy, update, and
+  reupload order
 - 🟡 Implement incremental updates for damaged GPU-backed surfaces: cell
   uploads and output blits use damage rectangles; GPU readback remains
   available for explicit pixel verification
@@ -271,7 +275,8 @@ The implemented foundation and remaining work are described in
 - 🔴 Benchmark accelerated composition against the software compositor
 
 The Phase 12 QEMU checks use `make test-virtio-gpu-3d` for render-target and
-window probes. The `visual` smoke case compares GPU and software output;
+window probes, including CPU/GPU shadow and fenced copy ordering. The `visual`
+smoke case compares GPU and software output;
 `live` verifies normal GPU interactions at 512 MiB, and `lowmem` verifies the
 retained CPU fallback at 256 MiB. Phase 12 remains open for transformations,
 damage-only GPU recomposition, performance, and sustained-workload checks.
